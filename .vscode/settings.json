@@ -1,0 +1,15 @@
+{
+  // VS Code Terminal: プロジェクト内でターミナルのセキュリティポリシーの有効化
+  "terminal.integrated.env.windows": {
+    "PSExecutionPolicyPreference": "RemoteSigned"
+  },
+  // VS Code Prettier: プロジェクト内で保存時の自動フォーマット設定
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  // markdownはフォーマット無効
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
+  // VS Code ES Lint: ESLintバージョン7から採用された、新しいAPIに対応するためのフラグを有効化
+  "eslint.useESLintClass": true
+}
