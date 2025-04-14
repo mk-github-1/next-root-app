@@ -12,27 +12,26 @@
       "cwd": "${workspaceFolder}/backend",
       "command": "npm run dev"
     },
-    /* コメントアウト
-    {
-      "name": "Next.js: debug client-side",
-      "type": "chrome",
-      "request": "launch",
-      "url": "http://localhost:3000"
-    },    
-    {
-      "name": "Next.js: debug client-side (Firefox)",
-      "type": "firefox",
-      "request": "launch",
-      "url": "http://localhost:3000",
-      "reAttach": true,
-      "pathMappings": [
-        {
-          "url": "webpack://_N_E",
-          "path": "${workspaceFolder}"
-        }
-      ]
-    },
-     */
+    // コメントアウト ※複数行は /* コメント */ でよいが、わかりやすいように表示
+    // {
+    //   "name": "Next.js: debug client-side",
+    //   "type": "chrome",
+    //   "request": "launch",
+    //   "url": "http://localhost:3000"
+    // },
+    // {
+    //   "name": "Next.js: debug client-side (Firefox)",
+    //   "type": "firefox",
+    //   "request": "launch",
+    //   "url": "http://localhost:3000",
+    //   "reAttach": true,
+    //   "pathMappings": [
+    //     {
+    //       "url": "webpack://_N_E",
+    //       "path": "${workspaceFolder}"
+    //     }
+    //   ]
+    // },
     {
       // "name": "Next.js: debug full stack",
       // ↓ 変更
@@ -54,7 +53,7 @@
       }
     }
   ],
-  // ↓ 追加
+  // 追加
   "compounds": [
     {
       "name": "Next.js: debug backend + frontend",
