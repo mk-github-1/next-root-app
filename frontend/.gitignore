@@ -52,7 +52,7 @@ yarn-error.log*
 # vercel
 # .vercel
 # ↓ 変更
-vercel/
+.vercel/
 
 # typescript
 *.tsbuildinfo
