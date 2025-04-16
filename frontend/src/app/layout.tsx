@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import { Inter } from "next/font/google";
+
+// Googleフォントを使わない場合はInter部分は削除して大丈夫です
+const inter = Inter({ subsets: ["latin"] });
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,11 +28,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.className} 
+        ${geistSans.variable} 
+        ${geistMono.variable} 
+        antialiased 
+        grid 
+        grid-rows-[50px_1fr_50px] 
+        h-full 
+        min-h-screen 
+        bg-gray-100
+      `}
       >
-        {children}
+        {/* Header */}
+        <header className="bg-light-300 flex px-4">
+          <h1>Header</h1>
+        </header>
+
+        {/* Main Content */}
+        <main className="bg-white p-4 h-full overflow-y-scroll">
+          {children}
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-lightgray-300 flex px-4">
+          <p>Footer</p>
+        </footer>
       </body>
     </html>
   );

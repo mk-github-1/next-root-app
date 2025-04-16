@@ -10,6 +10,12 @@
   "[markdown]": {
     "editor.formatOnSave": false
   },
+  // 長いコード行でも改行しない
+  "prettier.printWidth": 200,
+  // 配列の要素は改行して整形
+  "prettier.arrayElementNewline": true,
+  // JSXなどで改行の癖をやや調整
+  "prettier.bracketSameLine": false,
   // VS Code ES Lint: ESLintバージョン7から採用された、新しいAPIに対応するためのフラグを有効化
   "eslint.useESLintClass": true
 }
