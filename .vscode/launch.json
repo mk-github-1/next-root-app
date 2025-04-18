@@ -6,11 +6,18 @@
   "configurations": [
     {
       "name": "Next.js: debug server-side",
-      "type": "node-terminal",
+      // "type": "node-terminal",
+      // ↓ 変更
+      "type": "node",
       "request": "launch",
       // 追加：backendサブプロジェクトを指定
       "cwd": "${workspaceFolder}/backend",
-      "command": "npm run dev"
+      // コメントアウト
+      // "command": "npm run dev"
+      // 追加
+      "args": ["dev", "-p", "5000"],
+      "runtimeArgs": ["--inspect", "./node_modules/next/dist/bin/next"],
+      "skipFiles": ["<node_internals>/**"]
     },
     // コメントアウト ※複数行は /* コメント */ でよいが、わかりやすいように表示
     // {
@@ -57,10 +64,7 @@
   "compounds": [
     {
       "name": "Next.js: debug backend + frontend",
-      "configurations": [
-        "Next.js: debug server-side",
-        "Next.js: debug client-side"
-      ]
+      "configurations": ["Next.js: debug server-side", "Next.js: debug client-side"]
     }
   ]
 }
