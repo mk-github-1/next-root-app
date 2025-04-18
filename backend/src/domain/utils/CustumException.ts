@@ -7,7 +7,7 @@ export class CustomException extends Error {
   httpStatusCode: number;
   // logLevel: string;
 
-  constructor(httpStatusCode: number, logLevel: string, message: string) {
+  constructor(httpStatusCode: number, message: string /* logLevel: string */) {
     super(message);
     this.httpStatusCode = httpStatusCode;
     // this.logLevel = logLevel;

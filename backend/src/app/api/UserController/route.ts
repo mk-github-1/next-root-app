@@ -11,19 +11,23 @@ import { UserDto, userParamsSchema, userSchema } from "@/application/dtos/UserDt
 export async function GET(request: Request) {
   try {
     // Request -> keys mapping
-    const userDto: UserDto = await request.json();
-    const account: string = userDto["mailAddress"] ? userDto["mailAddress"] : "";
-    const keys: Record<string, string> = { account: account };
+    const { searchParams } = new URL(request.url);
+    const keys: Record<string, string> = {
+      mailAddress: searchParams.get("mailAddress") ?? "",
+    };
 
     // Validation
+    // paramsがある時のみ
     const ajv = new Ajv();
     const validate = ajv.compile(userParamsSchema);
     const isValidate: boolean = validate(keys);
-    if (!isValidate) throw new CustomException(400, "warning", "");
+
+    // ★messageは定数にする
+    if (!isValidate) throw new CustomException(400, "400 Bad Request");
 
     // Service operation
-    // const resultXxDto: XxDto | null = await xxService.findAll(keys)
-    // const resultXxDto: XxDto | null = await xxService.findOne(keys)
+    // const resultXxDto: UserDto[] | null = await UserService.findAll(keys)
+    // const resultXxDto: UserDto[] | null = await UserService.findOne(keys)
 
     // ダミーデータ
     const users: Record<string, string>[] = [
@@ -50,10 +54,10 @@ export async function POST(request: Request) {
     const ajv = new Ajv();
     const validate = ajv.compile(userSchema);
     const isValidate: boolean = validate(userDto);
-    if (!isValidate) throw new CustomException(400, "warning", "");
+    if (!isValidate) throw new CustomException(400, "400 Bad Request");
 
     // Service operation
-    // await xXService.create(userDto);
+    // await UserService.create(userDto);
 
     return await new Response(JSON.stringify({ message: "OK" }), {
       status: 200,
@@ -76,10 +80,10 @@ export async function PATCH(request: Request) {
     const ajv = new Ajv();
     const validate = ajv.compile(userSchema);
     const isValidate: boolean = validate(userDto);
-    if (!isValidate) throw new CustomException(400, "warning", "");
+    if (!isValidate) throw new CustomException(400, "400 Bad Request");
 
     // Service operation
-    // await xXService.update(userDto);
+    // await UserService.update(userDto);
 
     return await new Response(JSON.stringify({ message: "OK" }), {
       status: 200,
@@ -102,10 +106,10 @@ export async function DELETE(request: Request) {
     const ajv = new Ajv();
     const validate = ajv.compile(userSchema);
     const isValidate: boolean = validate(userDto);
-    if (!isValidate) throw new CustomException(400, "warning", "");
+    if (!isValidate) throw new CustomException(400, "400 Bad Request");
 
     // Service operation
-    // await xXService.delete(userDto);
+    // await UserService.delete(userDto);
 
     return await new Response(JSON.stringify({ message: "OK" }), {
       status: 200,
