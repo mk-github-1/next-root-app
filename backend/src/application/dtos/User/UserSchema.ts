@@ -1,0 +1,23 @@
+import { JSONSchemaType } from "ajv";
+import { UserDto } from "./UserDto";
+
+// Ajv schema定義
+// ★Schemaはファイルを分ける、openapiでも利用予定
+export const userSchema: JSONSchemaType<UserDto> = {
+  type: "object",
+  properties: {
+    account: { type: "string", format: "email" },
+    username: { type: "string", minLength: 1 },
+    password: { type: "string", nullable: true },
+    enabled: { type: "boolean", nullable: true },
+    accountNonExpired: { type: "boolean", nullable: true },
+    accountNonLocked: { type: "boolean", nullable: true },
+    credentialsNonExpired: { type: "boolean", nullable: true },
+    sortOrder: { type: "integer", nullable: true },
+    isDeleted: { type: "boolean", nullable: true },
+    createdAt: { type: "string", nullable: true, format: "date-time" },
+    updatedAt: { type: "string", nullable: true, format: "date-time" },
+  },
+  required: ["account", "username"],
+  additionalProperties: false,
+};

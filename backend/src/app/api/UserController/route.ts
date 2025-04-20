@@ -4,38 +4,43 @@ import Ajv from "ajv";
 // import { plainToClass } from "class-transformer";
 import { CustomException } from "@/domain/utils/CustumException";
 
-import { UserDto, userParamsSchema, userSchema } from "@/application/dtos/UserDto";
-// import { UserService } from '@/application/services/UserService'
+import { UserDto } from "@/application/dtos/User/UserDto";
+import { userSchema } from "@/application/dtos/User/UserSchema";
+import { container } from "@/settings/inversify/inversify.config";
+import { IUserService } from "@/application/services/User/IUserService";
 
 // ★Next authの認証を追加する
-export async function GET(request: Request) {
+export async function get(request: Request) {
+  // Get DI container
+  const userService: IUserService = container.get<IUserService>("UserService");
+
   try {
     // Request -> keys mapping
     const { searchParams } = new URL(request.url);
     const keys: Record<string, string> = {
-      mailAddress: searchParams.get("mailAddress") ?? "",
+      account: searchParams.get("account") ?? "",
     };
 
     // Validation
     // paramsがある時のみ
     const ajv = new Ajv();
-    const validate = ajv.compile(userParamsSchema);
+    const validate = ajv.compile(userSchema);
     const isValidate: boolean = validate(keys);
-
-    // ★messageは定数にする
-    if (!isValidate) throw new CustomException(400, "400 Bad Request");
+    if (!isValidate) throw new CustomException(400, "400 Bad Request"); // ★messageは定数にする
 
     // Service operation
-    // const resultXxDto: UserDto[] | null = await UserService.findAll(keys)
-    // const resultXxDto: UserDto[] | null = await UserService.findOne(keys)
+    const userDtos: UserDto[] | null = await userService.find(keys);
+    // const resultXxDto: UserDto[] | null = await userService.findOne(keys)
 
     // ダミーデータ
-    const users: Record<string, string>[] = [
-      { mailAddress: "test1@gmail.com", userName: "test1" },
-      { mailAddress: "test2@gmail.com", userName: "test2" },
+    /*
+    const users: UserDto[] = [
+      { account: "test1@gmail.com", username: "test1" },
+      { account: "test2@gmail.com", username: "test2" },
     ];
+     */
 
-    return await new Response(JSON.stringify(users), { status: 200 });
+    return await new Response(JSON.stringify(userDtos), { status: 200 });
   } catch (error: unknown) {
     if (error instanceof CustomException) {
       return await new Response(JSON.stringify({ error: error.message }), { status: Number(error.httpStatusCode) });
@@ -45,7 +50,10 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function post(request: Request) {
+  // Get DI container
+  const userService: IUserService = container.get<IUserService>("UserService");
+
   try {
     // Request -> dto mapping
     const userDto: UserDto = await request.json();
@@ -57,7 +65,7 @@ export async function POST(request: Request) {
     if (!isValidate) throw new CustomException(400, "400 Bad Request");
 
     // Service operation
-    // await UserService.create(userDto);
+    await userService.create(userDto);
 
     return await new Response(JSON.stringify({ message: "OK" }), {
       status: 200,
@@ -71,7 +79,10 @@ export async function POST(request: Request) {
   }
 }
 
-export async function PATCH(request: Request) {
+export async function patch(request: Request) {
+  // Get DI container
+  const userService: IUserService = container.get<IUserService>("UserService");
+
   try {
     // Request -> dto mapping
     const userDto: UserDto = await request.json();
@@ -83,7 +94,7 @@ export async function PATCH(request: Request) {
     if (!isValidate) throw new CustomException(400, "400 Bad Request");
 
     // Service operation
-    // await UserService.update(userDto);
+    await userService.update(userDto);
 
     return await new Response(JSON.stringify({ message: "OK" }), {
       status: 200,
@@ -97,7 +108,10 @@ export async function PATCH(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function del(request: Request) {
+  // Get DI container
+  const userService: IUserService = container.get<IUserService>("UserService");
+
   try {
     // Request -> dto mapping
     const userDto: UserDto = await request.json();
@@ -109,7 +123,7 @@ export async function DELETE(request: Request) {
     if (!isValidate) throw new CustomException(400, "400 Bad Request");
 
     // Service operation
-    // await UserService.delete(userDto);
+    await userService.delete({ key: userDto.account });
 
     return await new Response(JSON.stringify({ message: "OK" }), {
       status: 200,
