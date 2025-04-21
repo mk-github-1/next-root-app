@@ -2,7 +2,7 @@ import { JSONSchemaType } from "ajv";
 import { UserDto } from "./UserDto";
 
 // Ajv schema定義
-// ★Schemaはファイルを分ける、openapiでも利用予定
+// Dtoの形と同一にする必要がある
 export const userSchema: JSONSchemaType<UserDto> = {
   type: "object",
   properties: {

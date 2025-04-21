@@ -1,4 +1,5 @@
-// オプショナル?、 | nullは両方必要
+// DTO定義時、
+// 必須でないプロパティはオプショナル"?"、インターセクト型 | nullが両方必要
 export class UserDto {
   account: string = "";
   username: string = "";

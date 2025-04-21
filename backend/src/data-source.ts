@@ -5,7 +5,7 @@
 // import path from 'path'
 import { DataSource } from "typeorm";
 import { UserEntity } from "@/domain/entities/UserEntity";
-import { CustomNamingStrategy } from "@/settings/typeorm/CustomNamingStrategy";
+// import { CustomNamingStrategy } from "@/settings/typeorm/CustomNamingStrategy";
 import { ConcurrencySubscriber } from "@/settings/typeorm/ConcurrencySubscriber";
 
 // dotenvを追加
@@ -37,7 +37,7 @@ export const AppDataSource: DataSource = new DataSource({
   migrations: ["./migrations/*.ts"],
 
   // 4.customNamingStrategyでプロパティ名をスネークケースに変換
-  namingStrategy: new CustomNamingStrategy(),
+  //  namingStrategy: new CustomNamingStrategy(),
 
   // 5.EntityのイベントをListenする、データの競合チェックで利用
   subscribers: [ConcurrencySubscriber],
