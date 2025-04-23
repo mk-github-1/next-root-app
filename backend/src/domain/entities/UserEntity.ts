@@ -44,47 +44,47 @@ export class UserEntity {
   }
    */
 
-  @PrimaryColumn({ length: 256 })
+  @PrimaryColumn({ name: "account", length: 256 })
   public account: string = "";
 
-  @Column({ length: 256 })
+  @Column({ name: "username", length: 256 })
   public username: string = "";
 
-  @Column({ length: 256 })
+  @Column({ name: "password", length: 256 })
   public password: string = "";
 
   // アカウントが有効かどうかを示すフラグ
-  @Column()
+  @Column({ name: "enabled" })
   public enabled: boolean = false;
 
   // アカウントの有効期限が切れているかどうかを示すフラグ
-  @Column()
+  @Column({ name: "account_non_expired" })
   public accountNonExpired: boolean = false;
 
   // 資格情報の有効期限が切れているかどうかを示すフラグ
-  @Column()
+  @Column({ name: "account_non_locked" })
   public accountNonLocked: boolean = false;
 
   // アカウントがロックされているかどうかを示すフラグ
-  @Column()
+  @Column({ name: "credentials_non_eExpired" })
   public credentialsNonExpired: boolean = false;
 
-  @Column({ unsigned: true, default: () => 0 })
+  @Column({ name: "sord_order", unsigned: true, default: () => 0 })
   public sortOrder: number = 0;
 
-  @Column({ default: () => false })
+  @Column({ name: "is_deleted", default: () => false })
   public isDeleted: boolean = false;
 
-  @CreateDateColumn({ nullable: true })
+  @CreateDateColumn({ name: "created_at", nullable: true })
   public createdAt?: Date;
 
-  @UpdateDateColumn({ nullable: true })
+  @UpdateDateColumn({ name: "updated_at", nullable: true })
   public updatedAt?: Date;
 
-  @Column({ nullable: true })
+  @Column({ name: "created_by_id", nullable: true })
   public createdById?: string;
 
-  @Column({ nullable: true })
+  @Column({ name: "updated_by_id", nullable: true })
   public updatedById?: string;
 
   // ユーザーが持つ権限のリスト
