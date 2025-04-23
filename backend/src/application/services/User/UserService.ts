@@ -2,17 +2,20 @@ import "reflect-metadata";
 
 /*
  * UserService
- * Service interfaceの実装、inversify(DI)経由で利用
+ *
  */
 import { injectable, inject } from "inversify";
 import { Types } from "@/settings/inversify/Types";
 import { DataSource, EntityManager } from "typeorm";
-import { plainToClass } from "class-transformer";
-import { CustomException } from "@/settings/CustomException";
+import { plainToClass, plainToInstance } from "class-transformer";
+
+import { ResponseMessages } from "@/domain/utils/constants/ResponseMessages";
+import { CustomException } from "@/domain/utils/types/CustomException";
+
 import { UserEntity } from "@/domain/entities/UserEntity";
 import type { IUserRepository } from "@/domain/repositories/IUserRepository";
 import { IUserService } from "@/application/services/User/IUserService";
-import { UserDto } from "@/application/dtos/UserDto";
+import { UserDto } from "@/application/dtos/User/UserDto";
 
 @injectable()
 export class UserService implements IUserService {
@@ -36,9 +39,7 @@ export class UserService implements IUserService {
     // Repository operation
     const userEntities: UserEntity[] = await this.userRepository.find(keys);
 
-    if (!userEntities.length) {
-      throw new CustomException(404, "warning", "");
-    }
+    if (!userEntities.length) throw new CustomException(ResponseMessages.BAD_REQUEST.message, 400);
 
     // Entity -> dto mapping
     const userDtos: UserDto[] = userEntities.map((element: UserEntity) => {
@@ -54,9 +55,7 @@ export class UserService implements IUserService {
     // Repository operation
     const userEntity: UserEntity | null = await this.userRepository.findOne(keys);
 
-    if (!userEntity) {
-      throw new CustomException(404, "warning", "");
-    }
+    if (!userEntity) throw new CustomException(ResponseMessages.BAD_REQUEST.message, 400);
 
     // Entity -> dto mapping
     const userDto: UserDto = plainToClass(UserDto, userEntity, {

@@ -7,7 +7,7 @@ export const userSchema: JSONSchemaType<UserDto> = {
   type: "object",
   properties: {
     account: { type: "string", format: "email" },
-    username: { type: "string", minLength: 1 },
+    username: { type: "string", nullable: true, minLength: 1 },
     password: { type: "string", nullable: true },
     enabled: { type: "boolean", nullable: true },
     accountNonExpired: { type: "boolean", nullable: true },
@@ -18,6 +18,6 @@ export const userSchema: JSONSchemaType<UserDto> = {
     createdAt: { type: "string", nullable: true, format: "date-time" },
     updatedAt: { type: "string", nullable: true, format: "date-time" },
   },
-  required: ["account", "username"],
+  required: ["account"],
   additionalProperties: false,
 };

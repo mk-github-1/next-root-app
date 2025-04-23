@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 /*
  * UserRepository
- * Repository interfaceの実装、inversify(DI)経由で利用
+ *
  */
 import { injectable, inject } from "inversify";
 import { Types } from "@/settings/inversify/Types";
@@ -26,9 +26,7 @@ export class UserRepository implements IUserRepository {
   }
 
   // Read
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async find(keys: Record<string, string>): Promise<UserEntity[]> {
-    // entityが持つサブリスト(userRoles)を取得できるか確認
     const userEntities: UserEntity[] = await this.entityManager.findBy(UserEntity, {
       /* FindOptions: where */
     });
@@ -96,7 +94,6 @@ export class UserRepository implements IUserRepository {
       )
     `;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     lists.forEach((element: any, index: number) => {
       sql += `
         INSERT INTO @temp (account, sortOrder) VALUES (@account${index}, @sortOrder${index})
@@ -125,8 +122,7 @@ export class UserRepository implements IUserRepository {
       WHERE B.id IS NOT NULL
    `;
 
-    // Note: SQLインジェクション対策
-    // this.entityManager.query(sql, params)経由でパラメータを渡す
+    // Note: SQLインジェクション対策、.queryを利用
     await this.entityManager.query(sql, params);
 
     return 0;

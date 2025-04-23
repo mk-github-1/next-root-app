@@ -15,7 +15,8 @@ import { UserService } from "@/application/services//User/UserService";
 
 // import Ajv from 'ajv'
 
-// 実際の依存関係を追加する ※基本的にシングルトンスコープにする、他の設定にする場合は構築しながら調査
+// 基本的にデフォルトのシングルトンスコープになる
+// transientはメモリが多くかかる
 const container: Container = new Container();
 
 // container.bind<"取得する時の型(インタフェース or クラス)">("識別子").to("対象クラス")
@@ -35,8 +36,9 @@ container.bind<DataSource>(Types.DataSource).toConstantValue(AppDataSource);
 /* master **************************************************/
 
 // User
-container.bind<IUserRepository>(Types.UserRepository).to(UserRepository).inSingletonScope();
-container.bind<IUserService>(Types.UserService).to(UserService).inSingletonScope();
+container.bind<IUserRepository>(Types.UserRepository).to(UserRepository);
+container.bind<IUserService>(Types.UserService).to(UserService);
+// container.bind<IUserService>('UserService').to(UserService);
 
 /* transaction **************************************************/
 
