@@ -18,29 +18,12 @@ import {
 
 @Entity("users")
 export class UserEntity {
+  // class-transformerを利用しているのでconstructorは省略
+  // TypeScriptではconstructorは自動生成されない
+
   /*
-  constructor(data: {
-    account: string;
-    username: string;
-    password: string;
-    enabled: boolean;
-    accountNonExpired: boolean;
-    accountNonLocked: boolean;
-    credentialsNonExpired: boolean;
-    sortOrder: number;
-    isDeleted: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-  }) {
+  constructor(data: { account: string; ... }) {
     this.account = data ? data.account : "";
-    this.username = data ? data.username : "";
-    this.password = data ? data.password : "";
-    this.enabled = data ? data.enabled : false;
-    this.accountNonExpired = data ? data.accountNonExpired : true;
-    this.accountNonLocked = data ? data.accountNonLocked : true;
-    this.credentialsNonExpired = data ? data.credentialsNonExpired : true;
-    this.sortOrder = data ? data.sortOrder : 0;
-    this.isDeleted = data ? data.isDeleted : false;
   }
    */
 
