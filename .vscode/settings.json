@@ -7,9 +7,11 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   // markdownはフォーマット無効
+  /*
   "[markdown]": {
     "editor.formatOnSave": false
   },
+   */
   // 長いコード行でも改行しない
   "prettier.printWidth": 200,
   // 配列の要素は改行して整形

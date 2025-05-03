@@ -1,0 +1,15 @@
+# Next.js初期レイアウト構築
+TailwindCSS、Bootstrapでなく、とりあえずMUIを利用前提
+
+・page.module.cssの.mainと.footerをglobal.cssに移動
+
+・_layout.tsxに<header>を追加、page.tsxの<main>と<footer>を_layout.tsxに移動
+
+・_layout.tsxのfooter内の内容をpage.tsxに移動
+
+・高さ方向のレイアウト構築
+
+
+
+
+・サイドバー追加
