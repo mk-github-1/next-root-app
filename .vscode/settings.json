@@ -6,18 +6,16 @@
   // VS Code Prettier: プロジェクト内で保存時の自動フォーマット設定
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  // markdownはフォーマット無効
-  /*
-  "[markdown]": {
-    "editor.formatOnSave": false
-  },
-   */
   // 長いコード行でも改行しない
   "prettier.printWidth": 200,
   // 配列の要素は改行して整形
-  "prettier.arrayElementNewline": true,
+  // "prettier.bracketSameLine": true, // 角括弧やジェネリクスの閉じ括弧を同じ行に
+  // "prettier.proseWrap": "never", // 文書内テキストは改行しない
+  // "prettier.trailingComma": "all", // 末尾カンマをつける
+  // "prettier.semi": true, // セミコロンは付与
+  // "prettier.arrayElementNewline": true,
   // JSXなどで改行の癖をやや調整
-  "prettier.bracketSameLine": false,
+
   // VS Code ES Lint: ESLintバージョン7から採用された、新しいAPIに対応するためのフラグを有効化
   "eslint.useESLintClass": true
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Sidebar from "@/app/_components/layouts/Sidebar";
+import Header from "@/common/organisms/Header";
+import Sidebar from "@/common/organisms/Sidebar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,10 +25,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <header>Next.jsサンプルアプリ</header>
+        {/* Header */}
+        <header>
+          <Header initialTheme="default" />
+        </header>
 
+        {/* Content */}
         <main>
           {/* 削除 className={styles.main} */}
           {/* サイドバー */}
@@ -39,6 +44,7 @@ export default function RootLayout({
           <div className="content">{children}</div>
         </main>
 
+        {/* Footer */}
         <footer>{/* 削除 className={styles.footer} */}</footer>
       </body>
     </html>

@@ -10,6 +10,6 @@ import { NextResponse } from "next/server";
 // import { getServerSession } from "next-auth/next";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse<{ response: string }>> {
   return await NextResponse.json({ response: "200 OK" }, { status: 200 });
 }

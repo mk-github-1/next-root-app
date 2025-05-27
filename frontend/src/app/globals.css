@@ -1,3 +1,6 @@
+/*
+ * layout.tsxに関係するスタイルはglobal.cssに記述する
+ */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -9,6 +12,11 @@
     --foreground: #ededed;
   }
 }
+/* 共通レイアウト用に追加 */
+h1 {
+  font-size: 18px;
+  color: #666666;
+}
 
 html,
 body {
@@ -17,7 +25,6 @@ body {
 
   /* 追加 */
   height: 100%;
-  margin: 0;
 }
 
 body {
@@ -28,8 +35,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   /* 共通レイアウト用に追加 */
+  /* header・main・footer の高さを自動調整 */
   display: grid;
-  /* header／main／footer の行高さを指定 */
   grid-template-rows: 40px 1fr 40px;
 }
 
@@ -41,13 +48,18 @@ header {
 }
 
 /* 共通レイアウト用に追加 */
+header div {
+  /* divを横並びにする */
+  display: inline-block;
+}
+
+/* 共通レイアウト用に追加 */
 main {
   display: grid;
   /* サイドバー 240px + コンテンツ が残り領域 */
   grid-template-columns: 240px 1fr;
-  overflow-y: scroll;
+  overflow: hidden;
   /* Grid の中でスクロールを効かせるために必要 */
-  min-height: 0;
 }
 
 /* 共通レイアウト用に追加 */
@@ -56,18 +68,29 @@ main {
   padding-left: 20px;
   background-color: ghostwhite;
   border-right: 1px solid lightgray;
+  overflow-y: none;
 }
 
 /* 共通レイアウト用に追加 */
 .content {
   padding-top: 20px;
   padding-left: 20px;
+  padding-bottom: 10px;
+  overflow-y: scroll;
 }
 
 /* 共通レイアウト用に追加 */
 footer {
-  padding: 5px;
   border-top: 1px solid lightgray;
+
+  /* gap余白調整 */
+  padding: 5px;
+}
+
+/* 共通レイアウト用に追加 */
+footer div {
+  /* divを横並びにする */
+  display: inline-block;
 }
 
 * {
@@ -91,6 +114,8 @@ a {
 }
 
 /* デフォルトのpage.module.cssから移動 */
+/* コメントアウト */
+/* 
 .main {
   display: flex;
   flex-direction: column;
@@ -158,3 +183,4 @@ a {
     text-underline-offset: 4px;
   }
 }
+ */

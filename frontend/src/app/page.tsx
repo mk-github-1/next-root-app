@@ -1,7 +1,8 @@
+import { JSX } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 
-export default function Home() {
+export default function Home(): JSX.Element {
   return (
     <div className={styles.page}>
       <Image className={styles.logo} src="/next.svg" alt="Next.js logo" width={90} height={19} priority />

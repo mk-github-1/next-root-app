@@ -1,49 +1,51 @@
 import { JSONSchemaType } from "ajv";
 
 /*
- * UserDTO
+ * User
  * 必須でないプロパティはオプショナル"?"、ユニオン型でnullを許可
+ * 登録・更新でデータ型を分ける必要がある
  */
-export class UserDto {
-  account: string = "";
-  username?: string | null;
+
+export interface User {
+  account: string;
+  username: string;
   password?: string | null;
   age?: number | null;
   hobby?: string | null;
   startDate?: string | null;
   isEnabled?: boolean | null;
   remarks?: string | null;
-  sortOrder?: number | null;
   isDeleted?: boolean | null;
+  sortOrder?: number | null;
   createdAt?: string | null;
   updatedAt?: string | null;
   createdBy?: string | null;
   updatedBy?: string | null;
 }
 
-// 用途によってSchemaを分ける必要がある
-// nullの時、nullable: trueにする必要がある、警告はでない
-export const userSchema: JSONSchemaType<UserDto> = {
+// nullの時、nullable: trueにする必要がある
+export const userSchema: JSONSchemaType<User> = {
   type: "object",
   properties: {
     account: {
       type: "string",
-      format: "email",
+      minLength: 1, // requiredを通った場合
       maxLength: 256,
+      format: "email",
       errorMessage: {
-        format: "アカウント名は有効なメールアドレスを入力してください",
+        minLength: "アカウント名は入力が必須です",
         maxLength: "アカウント名は{0}文字以内で入力してください",
+        format: "アカウント名は有効なメールアドレスを入力してください",
       },
     },
     username: {
       type: "string",
-      minLength: 1, // ← これが空文字を防ぐ
+      minLength: 1, // requiredを通った場合
       maxLength: 256,
       errorMessage: {
         minLength: "ユーザー名は入力が必須です",
         maxLength: "ユーザー名は{0}文字以内で入力してください",
       },
-      nullable: true,
     },
     password: {
       type: "string",
@@ -73,17 +75,20 @@ export const userSchema: JSONSchemaType<UserDto> = {
     },
     isDeleted: { type: "boolean", nullable: true },
     sortOrder: { type: "integer", nullable: true },
-    createdAt: { type: "string", nullable: true, format: "date-time" },
-    updatedAt: { type: "string", nullable: true, format: "date-time" },
+    createdAt: { type: "string", nullable: true },
+    updatedAt: { type: "string", nullable: true },
     createdBy: { type: "string", nullable: true },
     updatedBy: { type: "string", nullable: true },
   },
-  required: ["account"],
+  required: ["account", "username"],
   additionalProperties: false,
   errorMessage: {
+    /*
     required: {
-      account: "アカウント名は必須です",
+      account: "アカウント名は入力が必須です",
+      username: "ユーザー名は入力が必須です",
     },
+     */
     additionalProperties: "不明なプロパティが含まれています",
   },
 };
