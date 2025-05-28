@@ -6,9 +6,9 @@ import { Backdrop, CircularProgress, Snackbar, SnackbarContent, Button } from "@
 
 // AG Grid
 import { RowDoubleClickedEvent } from "ag-grid-community";
-import { useApiRequest } from "@/hooks/useApiRequest";
 
 // App
+import { useApiRequest } from "@/hooks/useApiRequest";
 import { User } from "@/types/User";
 import { IUserService, createUserService } from "@/services/createUserService";
 import { Table } from "./table";

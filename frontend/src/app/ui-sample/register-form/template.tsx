@@ -4,14 +4,11 @@
 import { JSX, useState, useEffect, useCallback } from "react";
 import { Backdrop, CircularProgress, Snackbar, SnackbarContent, Button } from "@mui/material";
 
-// AG Grid
-import { RowDoubleClickedEvent } from "ag-grid-community";
-
 // App
 import { useApiRequest } from "@/hooks/useApiRequest";
 import { User } from "@/types/User";
 import { IUserService, createUserService } from "@/services/createUserService";
-import { Table } from "./table";
+import { ModalForm } from "./modal-form";
 
 // Template (Layout & stateを持つ場所)
 export default function Template(): JSX.Element {
@@ -22,16 +19,19 @@ export default function Template(): JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({ open: false, message: "" });
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModalKey, setOpenModalKey] = useState<number>(0);
 
   // State (data)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rowData, setRowData] = useState<User[]>([]);
+  const [data, setData] = useState<User | null>(null);
 
   // Custom hook (API requestの状態の保持、例外処理に利用)
   const { request } = useApiRequest({ setIsLoading, setError });
 
   // Service (状態を持たない関数)
   const userService: IUserService = createUserService(API_URL);
-
   /**************************************************
    * データ取得
    *
@@ -55,11 +55,6 @@ export default function Template(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 任意のタイミングでデータ取得し、Tableに表示
-  const onDataFetch = () => {
-    fetch();
-  };
-
   /**************************************************
    * エラーメッセージ表示
    *
@@ -71,22 +66,61 @@ export default function Template(): JSX.Element {
   }, [error]);
 
   /**************************************************
+   * ModalFormを開く
+   *
+   **************************************************/
+  const onOpen = () => {
+    setData(null);
+    setOpenModalKey((prev) => prev + 1);
+    setOpenModal(true);
+  };
+
+  /**************************************************
    * 子コンポーネントに渡す関数
    * 関数名はhandleから始める
    *
    **************************************************/
 
-  // TableのRowDoubleClickでModalFormを開く
-  const handleRowDoubleClick = useCallback((event: RowDoubleClickedEvent<User>) => {
-    // データを渡してモーダルを開く
-    const user: User | null = event.data ?? null;
+  // ModalFormを閉じる
+  const handleClose = useCallback(() => {
+    setData(null);
+    setOpenModalKey((prev) => prev + 1);
+    setOpenModal(false);
+  }, []);
 
-    if (user) {
-      /*
-      setData(user);
-      setOpenModal(true);
-       */
+  // ModalFormからの登録
+  const handleSubmit = useCallback(async (user: User) => {
+    let response: User | null = null;
+
+    // useApiRequestのrequestにserviceの関数を渡して実行
+    if (!user?.createdAt) {
+      response = await request(() => userService.post(user));
+    } else {
+      response = await request(() => userService.patch(user));
     }
+
+    if (response) {
+      setOpenModal(false);
+      fetch();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleDelete = useCallback(async (user: User) => {
+    let response: User | null = null;
+
+    // useApiRequestのrequestにserviceの関数を渡して実行
+    if (!user?.createdAt) {
+      response = await request(() => userService.del(user));
+    }
+
+    if (response) {
+      setOpenModal(false);
+      fetch();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**************************************************
@@ -100,15 +134,14 @@ export default function Template(): JSX.Element {
         <h2>ユーザー一覧</h2>
       </div>
 
-      {/* Table (organisms) */}
-      <div style={{ flex: "1 1 auto" }}>
-        <Table rowData={rowData} isLoading={isLoading} onRowDoubleClick={handleRowDoubleClick} />
-      </div>
+      {/* ModalForm (organisms) */}
+      {/* keyは再マウント用、propsで受取不可 */}
+      <ModalForm key={openModalKey} open={openModal} data={data} onFormSubmit={handleSubmit} onDelete={handleDelete} onClose={handleClose} />
 
       <div style={{ flex: "0 0 auto" }}>
-        <div style={{ display: "inline-block" }}>
-          <Button size="small" variant="contained" color="primary" onClick={() => onDataFetch()}>
-            データ再取得
+        <div style={{ display: "inline-block", marginLeft: "5px" }}>
+          <Button size="small" variant="contained" color="primary" onClick={onOpen}>
+            新規登録
           </Button>
         </div>
       </div>

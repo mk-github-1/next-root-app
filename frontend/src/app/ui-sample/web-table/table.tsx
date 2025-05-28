@@ -27,18 +27,19 @@ ModuleRegistry.registerModules([
 interface IProps {
   rowData: User[];
   isLoading: boolean;
+  onRowDoubleClick: (event: RowDoubleClickedEvent<User>) => void;
 }
 
 // Organisms
 export const Table = (props: IProps): JSX.Element => {
-  const { rowData, isLoading }: IProps = props;
+  const { rowData, isLoading, onRowDoubleClick }: IProps = props;
 
   // Ag Grid
   const gridApiRef = useRef<GridApi | null>(null);
 
   const columnDefs: ColDef[] = [
-    { rowDrag: true, field: "RowDrag", headerName: "", width: 40 },
-    { field: "account", headerName: "アカウント名", width: 140 },
+    { rowDrag: true, field: "RowDrag", headerName: "", /* valueGetter: () => { return ""; }, */ /* editable: false, */ width: 40, pinned: "left" },
+    { field: "account", headerName: "アカウント名", /* colId: "account", */ width: 140, pinned: "left" },
     { field: "username", headerName: "ユーザー名", width: 140 },
     { field: "age", headerName: "年齢", width: 70 },
     {
@@ -108,7 +109,7 @@ export const Table = (props: IProps): JSX.Element => {
 
   return (
     <>
-      <AgGridReact onGridReady={onGridReady} gridOptions={gridOptions} rowData={rowData} />
+      <AgGridReact onGridReady={onGridReady} gridOptions={gridOptions} rowData={rowData} onRowDoubleClicked={onRowDoubleClick} />
     </>
   );
 };
