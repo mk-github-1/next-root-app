@@ -8,7 +8,7 @@ export const ResponseMessages: Record<number, string> = {
 
 /*
 export const ResponseMessages = {
-  OK: {
+ResponseMessages  OK: {
     message: "200 OK",
     status: "処理が正常に完了しました。",
   },

@@ -41,7 +41,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserDto[]>
       const ajv: Ajv = new Ajv();
       const validate: ValidateFunction<UserDto> = ajv.compile(userSchema);
       const isValidate: boolean = validate(keys);
-      if (!isValidate) throw new CustomException(ResponseMessages.BAD_REQUEST.message, 400);
+
+      if (!isValidate) {
+        const status: number = 400;
+        throw new CustomException(ResponseMessages[status], status);
+      }
     }
 
     // Service operation
@@ -88,11 +92,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserDto[]>
       return await NextResponse.json({ message: exception.message }, { status: exception.status });
     }
 
-    return await NextResponse.json({ message: ResponseMessages.INTERNAL_SERVER_ERROR.message }, { status: 500 });
+    const status: number = 500;
+    return await NextResponse.json({ message: ResponseMessages[status] }, { status: status });
   }
 }
 
-export async function POST(request: NextRequest): Promise<NextResponse<{ message: string }>> {
+export async function POST(request: NextRequest): Promise<NextResponse<UserDto> | NextResponse<{ message: string }>> {
   // Get DI container
   const userService: IUserService = container.get<IUserService>(Types.UserService);
 
@@ -104,22 +109,26 @@ export async function POST(request: NextRequest): Promise<NextResponse<{ message
     const ajv: Ajv = new Ajv();
     const validate: ValidateFunction<UserDto> = ajv.compile(userSchema);
     const isValidate: boolean = validate(userDto);
-    if (!isValidate) throw new CustomException(ResponseMessages.BAD_REQUEST.message, 400);
+    if (!isValidate) {
+      const status: number = 400;
+      throw new CustomException(ResponseMessages[status], status);
+    }
 
     // Service operation
-    // await userService.create(userDto);
+    // const user: UserDto = await userService.create(userDto);
 
-    return await NextResponse.json({ message: ResponseMessages.OK.message }, { status: 200 });
+    return await NextResponse.json(userDto); /* user */
   } catch (exception: unknown) {
     if (exception instanceof CustomException) {
       return await NextResponse.json({ message: exception.message }, { status: exception.status });
     }
 
-    return await NextResponse.json({ message: ResponseMessages.INTERNAL_SERVER_ERROR.message }, { status: 500 });
+    const status: number = 500;
+    return await NextResponse.json({ message: ResponseMessages[status] }, { status: status });
   }
 }
 
-export async function PATCH(request: NextRequest): Promise<NextResponse<{ message: string }>> {
+export async function PATCH(request: NextRequest): Promise<NextResponse<UserDto> | NextResponse<{ message: string }>> {
   // Get DI container
   const userService: IUserService = container.get<IUserService>(Types.UserService);
 
@@ -131,22 +140,26 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<{ messag
     const ajv: Ajv = new Ajv();
     const validate: ValidateFunction<UserDto> = ajv.compile(userSchema);
     const isValidate: boolean = validate(userDto);
-    if (!isValidate) throw new CustomException(ResponseMessages.BAD_REQUEST.message, 400);
+    if (!isValidate) {
+      const status: number = 400;
+      throw new CustomException(ResponseMessages[status], status);
+    }
 
     // Service operation
-    // await userService.update(userDto);
+    // const user: UserDto = await userService.update(userDto);
 
-    return await NextResponse.json({ message: ResponseMessages.OK.message }, { status: 200 });
+    return await NextResponse.json(userDto); /* user */
   } catch (exception: unknown) {
     if (exception instanceof CustomException) {
       return await NextResponse.json({ message: exception.message }, { status: exception.status });
     }
 
-    return await NextResponse.json({ message: ResponseMessages.INTERNAL_SERVER_ERROR.message }, { status: 500 });
+    const status: number = 500;
+    return await NextResponse.json({ message: ResponseMessages[status] }, { status: status });
   }
 }
 
-export async function DELETE(request: NextRequest): Promise<NextResponse<{ message: string }>> {
+export async function DELETE(request: NextRequest): Promise<NextResponse<UserDto> | NextResponse<{ message: string }>> {
   // Get DI container
   const userService: IUserService = container.get<IUserService>(Types.UserService);
 
@@ -158,17 +171,21 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<{ messa
     const ajv: Ajv = new Ajv();
     const validate: ValidateFunction<UserDto> = ajv.compile(userSchema);
     const isValidate: boolean = validate(userDto);
-    if (!isValidate) throw new CustomException(ResponseMessages.BAD_REQUEST.message, 400);
+    if (!isValidate) {
+      const status: number = 400;
+      throw new CustomException(ResponseMessages[status], status);
+    }
 
     // Service operation
-    // await userService.delete({ key: userDto.account });
+    // const user: UserDto = await userService.delete({ key: userDto.account });
 
-    return await NextResponse.json({ message: ResponseMessages.OK.message }, { status: 200 });
+    return await NextResponse.json(userDto); /* user */
   } catch (exception: unknown) {
     if (exception instanceof CustomException) {
       return await NextResponse.json({ message: exception.message }, { status: exception.status });
     }
 
-    return await NextResponse.json({ message: ResponseMessages.INTERNAL_SERVER_ERROR.message }, { status: 500 });
+    const status: number = 500;
+    return await NextResponse.json({ message: ResponseMessages[status] }, { status: status });
   }
 }

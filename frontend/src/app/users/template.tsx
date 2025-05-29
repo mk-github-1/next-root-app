@@ -41,6 +41,8 @@ export default function Template(): JSX.Element {
    *
    **************************************************/
   const fetch = async (): Promise<void> => {
+    setRowData([]);
+
     // useApiRequestのrequestにserviceの関数を渡して実行
     const response: User[] | null = await request(() => userService.get(["xxx"]));
     const users: User[] = Array.isArray(response) ? response : [];
@@ -60,7 +62,7 @@ export default function Template(): JSX.Element {
   }, []);
 
   // 任意のタイミングでデータ取得し、Tableに表示
-  const onDataFetch = () => {
+  const onDataFetch = (): void => {
     fetch();
   };
 
@@ -78,7 +80,7 @@ export default function Template(): JSX.Element {
    * ModalFormを開く
    *
    **************************************************/
-  const onOpen = () => {
+  const onOpen = (): void => {
     setData(null);
     setOpenModalKey((prev) => prev + 1);
     setOpenModal(true);

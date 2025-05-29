@@ -14,7 +14,7 @@ export default function Template(): JSX.Element {
    * ModalFormの開閉
    *
    **************************************************/
-  const onOpen = () => {
+  const onOpen = (): void => {
     setOpenKey((prev) => prev + 1);
     setOpen(true);
   };

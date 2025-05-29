@@ -8,7 +8,12 @@ interface IProps {
   setError: (e: Error | null) => void;
 }
 
-export const useApiRequest = ({ setIsLoading, setError }: IProps) => {
+export const useApiRequest = ({
+  setIsLoading,
+  setError,
+}: IProps): {
+  request: <T>(fn: () => Promise<T>) => Promise<T | null>;
+} => {
   // 引数 (fn: () => Promise<T>) の、
   // fnの型の "() => Promise<T>"" は、 function(): Promise<T> { } のことであり、
   // createService内で定義したget, post, patch, del関数が使える

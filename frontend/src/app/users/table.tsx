@@ -65,6 +65,11 @@ export const Table = (props: IProps): JSX.Element => {
       headerName: "登録日",
       width: 120,
       valueFormatter: (params) => {
+        /*
+        if (!params.value) return "";
+        const datetime = parseISO(params.value);
+        return isValid(datetime) ? format(datetime, "yyyy/MM/dd") : "";
+        */
         if (!params.value) return "";
         const datetime = DateTime.fromISO(params.value);
         return datetime.isValid ? datetime.toFormat("yyyy/MM/dd") : "";

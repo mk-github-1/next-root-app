@@ -26,11 +26,18 @@ const eslintConfig = [
         },
       ],
       */
+
+      // 戻り値の型が明示されていない関数に警告を出す
+      "@typescript-eslint/explicit-function-return-type": "warn",
+
+      // importのtype分類
+      // "@typescript-eslint/consistent-type-imports": "warn",
+
       // console は 本番時は禁止、開発時のみ
       // "no-console": "error",
       "no-console": "off",
 
-      // 関数内の型宣言は不可
+      // 関数内の型宣言は不可？
       "no-restricted-syntax": [
         "error", // interface
         { selector: "FunctionDeclaration TSInterfaceDeclaration" },

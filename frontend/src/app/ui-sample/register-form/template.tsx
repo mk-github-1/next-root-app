@@ -69,7 +69,7 @@ export default function Template(): JSX.Element {
    * ModalFormを開く
    *
    **************************************************/
-  const onOpen = () => {
+  const onOpen = (): void => {
     setData(null);
     setOpenModalKey((prev) => prev + 1);
     setOpenModal(true);

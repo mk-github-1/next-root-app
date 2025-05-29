@@ -56,7 +56,7 @@ export default function Template(): JSX.Element {
   }, []);
 
   // 任意のタイミングでデータ取得し、Tableに表示
-  const onDataFetch = () => {
+  const onDataFetch = (): void => {
     fetch();
   };
 
