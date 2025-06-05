@@ -17,7 +17,7 @@ export default function Page(): JSX.Element {
     console.log("useEffect2、useStateを更新 ----------", count2);
   }, [count2]);
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     setCount2(count2 + 1);
     console.log("handleClick: ", count2);
   };

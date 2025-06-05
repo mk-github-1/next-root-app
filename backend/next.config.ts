@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
           // CORSを許可するオリジン
           {
             key: "Access-Control-Allow-Origin",
-            value: "*", // http://localhost:3000
+            value: "http://localhost:3000",
           },
           // 許可するメソッド
           {

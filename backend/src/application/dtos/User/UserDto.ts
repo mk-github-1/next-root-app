@@ -10,7 +10,7 @@ export class UserDto {
   password?: string | null;
   age?: number | null;
   hobby?: string | null;
-  startDate?: string | null;
+  applyDate?: string | null;
   isEnabled?: boolean | null;
   remarks?: string | null;
   sortOrder?: number | null;
@@ -55,7 +55,7 @@ export const userSchema: JSONSchemaType<UserDto> = {
     },
     age: { type: "integer", nullable: true },
     hobby: { type: "string", nullable: true },
-    startDate: { type: "string", nullable: true },
+    applyDate: { type: "string", nullable: true },
     isEnabled: {
       type: "boolean",
       errorMessage: {

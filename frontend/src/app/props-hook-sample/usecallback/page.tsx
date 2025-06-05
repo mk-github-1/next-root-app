@@ -13,7 +13,7 @@ export default function Page(): JSX.Element {
   console.log("レンダリング発生(2回実行)");
 
   // useCallback無しの関数
-  const handleSubmit = (form: Test) => {
+  const handleSubmit = (form: Test): void => {
     console.log("handleSubmit ----------");
     setData(form);
   };
@@ -51,14 +51,15 @@ const Children1 = memo(function Children(props: IProps): JSX.Element {
   console.log("Children1のレンダリング発生(2回実行)");
 
   // 検証用のダミー
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     // const { name, value } = e.target;
     // setForm((prev) => ({ ...prev, [name]: value }));
+    console.log(e);
   };
 
   // ボタンイベント
   // onSubmitで親へ渡す
-  const handleClick = () => {
+  const handleClick = (): void => {
     console.log("handleClick ----------");
     setForm({ account: form.account, age: form.age + 1 });
     onSubmit(form);
@@ -97,14 +98,15 @@ const Children2 = memo(function Children(props: IProps2): JSX.Element {
   console.log("Children2のレンダリング発生(2回実行)");
 
   // 検証用のダミー
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     // const { name, value } = e.target;
     // setForm((prev) => ({ ...prev, [name]: value }));
+    console.log(e);
   };
 
   // ボタンイベント
   // onSubmitで親へ渡す
-  const handleClick2 = () => {
+  const handleClick2 = (): void => {
     console.log("handleClick2 ----------");
     setForm({ account: form.account, age: form.age + 1 });
     onSubmit2(form);

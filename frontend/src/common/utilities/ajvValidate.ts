@@ -3,24 +3,20 @@
  *
  * AJV（Another JSON Schema Validator）を使用して、data を JSON Schemaで検証する
  *
+ * ajvValidate: AjvValidationResult<T>
  * @param data - 検証する data
  * @param schema - dataに対応する JSON Schema
- * @returns - validation result
- *  - valid: true の場合はエラーなし（errors: null）
- *  - valid: false の場合は、フィールドごとのエラーメッセージを含む errors を返す
+ * @returns - Record<string, string>[]
+ *  - valid: true の場合はエラーなし []
+ *  - valid: false の場合は Record<string, string>[] でフィールドとエラーメッセージを返す
  *
  **************************************************/
 
-import Ajv from "ajv";
+import Ajv, { JSONSchemaType } from "ajv";
 import addFormats from "ajv-formats";
 import ajvErrors from "ajv-errors";
 
-interface AjvValidationResult<T> {
-  valid: boolean;
-  errors: Record<keyof T, string> | null;
-}
-
-export const ajvValidate = <T>(data: T, schema: object): AjvValidationResult<T> => {
+export const ajvValidate = <T>(data: T, schema: JSONSchemaType<T>): Record<string, string>[] => {
   // Validation
   const ajv = new Ajv({ allErrors: true, strict: false });
   addFormats(ajv);
@@ -29,37 +25,33 @@ export const ajvValidate = <T>(data: T, schema: object): AjvValidationResult<T> 
   const validate = ajv.compile(schema);
   const valid = validate(data);
 
-  // valid: true
+  // valid: true trueは終了
   if (valid) {
-    return { valid: true, errors: null };
+    return [];
   }
 
   // valid: false
-  const errors: Record<string, string> = {};
+  const errors: Record<string, string>[] = [];
 
   // Get error messages
   for (const error of validate.errors || []) {
-    // required時
-    if (error.keyword === "errorMessage" && Array.isArray(error.params?.errors)) {
-      const inner = error.params.errors[0];
-      const field = inner.params?.missingProperty || inner.instancePath.replace(/^\//, "");
+    const field: string = error.instancePath.replace(/^\//, "");
 
-      if (field) {
-        errors[field] = error.message || "入力エラーがあります";
-      }
+    // ルートのschemaはfieldが空、かつ利用無しのためスキップ
+    if (!field) continue;
 
-      // required以外
+    // エラーメッセージ取得
+    const message: string = error.message || "入力エラーがあります";
+
+    // fieldがなければ配列にpush、すでに存在してればそのfieldのメッセージに改行して追加
+    const found: Record<string, string> | undefined = errors.find((element: Record<string, string>) => element.field === field);
+
+    if (found === undefined) {
+      errors.push({ field, message });
     } else {
-      const field = error.instancePath.replace(/^\//, "");
-
-      if (field) {
-        errors[field] = error.message || "入力エラーがあります";
-      }
+      found.message += `\n${message}`;
     }
   }
 
-  return {
-    valid: false,
-    errors: errors as Record<keyof T, string>,
-  };
+  return errors;
 };

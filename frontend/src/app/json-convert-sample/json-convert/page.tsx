@@ -45,7 +45,7 @@ export default function Page(): JSX.Element {
 
   return (
     <div>
-      <div>プログラムコード6</div>
+      <div>JSON相互変換</div>
       <Button variant="contained" onClick={doSomething}>
         ボタン
       </Button>

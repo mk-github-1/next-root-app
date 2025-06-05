@@ -1,14 +1,12 @@
 "use client";
 
-import { JSX, useRef, useEffect } from "react";
-import { User } from "@/types/User";
+// React、MUI
+import { JSX } from "react";
 // import styles from "./page.module.css";
-
-import { DateTime } from "luxon";
 
 // AG Grid
 import { AgGridReact } from "ag-grid-react";
-import type { GridApi, GridReadyEvent } from "ag-grid-community";
+// import type { GridApi } from "ag-grid-community";
 import { ColDef, GridOptions, ModuleRegistry, ClientSideRowModelModule, RowDragModule, ValidationModule, RowDoubleClickedEvent } from "ag-grid-community";
 /* , MenuModule, ColumnsToolPanelModule, FiltersToolPanelModule, SetFilterModule, NumberFilterModule, TextFilterModule, StatusBarModule, SideBarModule, ClipboardModule, CsvExportModule */
 // import { ExcelExportModule, MasterDetailModule, ServerSideRowModelModule, InfiniteRowModelModule, ViewportRowModelModule, RowGroupingModule, PivotModule, ChartsModule, SparklinesModule } from 'ag-grid-enterprise';
@@ -18,25 +16,41 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   RowDragModule,
   // MenuModule, ColumnsToolPanelModule, FiltersToolPanelModule, SetFilterModule, NumberFilterModule, TextFilterModule, StatusBarModule, SideBarModule, ClipboardModule, CsvExportModule,
-  ValidationModule,
+  ValidationModule
   // Enterprise版
   // ExcelExportModule, MasterDetailModule, ServerSideRowModelModule, InfiniteRowModelModule, ViewportRowModelModule, RowGroupingModule, PivotModule, ChartsModule, SparklinesModule
 ]);
 
+// Luxon
+import { DateTime } from "luxon";
+
+// Data
+import { User } from "@/types/User";
+
 // IProps
 interface IProps {
   rowData: User[];
-  isLoading: boolean;
   onRowDoubleClick: (event: RowDoubleClickedEvent<User>) => void;
 }
 
 // Organisms
 export const Table = (props: IProps): JSX.Element => {
-  const { rowData, isLoading, onRowDoubleClick }: IProps = props;
+  /**************************************************
+   * Props
+   *
+   **************************************************/
 
-  // Ag Grid
-  const gridApiRef = useRef<GridApi | null>(null);
+  const { rowData, onRowDoubleClick }: IProps = props;
 
+  // Ag Grid: gridApi参照 (必要時)
+  // const gridApi = useRef<GridApi | null>(null);
+
+  /**************************************************
+   * AG Grid設定
+   *
+   **************************************************/
+
+  // Ag Grid: Column定義
   const columnDefs: ColDef[] = [
     { rowDrag: true, field: "RowDrag", headerName: "", /* valueGetter: () => { return ""; }, */ /* editable: false, */ width: 40, pinned: "left" },
     { field: "account", headerName: "アカウント名", /* colId: "account", */ width: 140, pinned: "left" },
@@ -46,29 +60,29 @@ export const Table = (props: IProps): JSX.Element => {
       field: "hobby",
       headerName: "趣味",
       width: 100,
-      valueFormatter: (params) => {
-        // リストデータは、実際はテーブルや定数などから取得します
+      valueFormatter: (params): string => {
+        // リストは実際はbackendや定数から取得
         const hobbies: Record<string, string>[] = [
           { code: "", label: "選択してください" },
           { code: "music", label: "音楽" },
           { code: "sports", label: "スポーツ" },
           { code: "reading", label: "読書" },
-          { code: "travel", label: "旅行" },
+          { code: "travel", label: "旅行" }
         ];
 
         const match = hobbies.find((h) => h.code === params.value);
         return match ? match.label : "";
-      },
+      }
     },
     {
-      field: "registerDate",
-      headerName: "登録日",
+      field: "applyDate",
+      headerName: "適用日",
       width: 120,
-      valueFormatter: (params) => {
+      valueFormatter: (params): string => {
         if (!params.value) return "";
         const datetime = DateTime.fromISO(params.value);
         return datetime.isValid ? datetime.toFormat("yyyy/MM/dd") : "";
-      },
+      }
     },
     { field: "isEnabled", headerName: "有効フラグ", width: 110 },
     { field: "remarks", headerName: "備考", width: 140 },
@@ -79,37 +93,32 @@ export const Table = (props: IProps): JSX.Element => {
       field: "updatedAt",
       headerName: "更新日時",
       width: 160,
-      valueFormatter: (params) => {
+      valueFormatter: (params): string => {
         if (!params.value) return "";
         const datetime = DateTime.fromISO(params.value);
         return datetime.isValid ? datetime.toFormat("yyyy/MM/dd HH:mm:ss") : "";
-      },
+      }
     },
     { field: "createdBy", headerName: "CreatedBy", hide: true },
-    { field: "updatedBy", headerName: "UpdatedBy", hide: true },
+    { field: "updatedBy", headerName: "UpdatedBy", hide: true }
   ];
 
-  const onGridReady = (params: GridReadyEvent) => {
-    gridApiRef.current = params.api;
-    params.api.setGridOption("loading", isLoading);
-  };
-
-  useEffect(() => {
-    const api = gridApiRef.current;
-    if (!api) return;
-
-    api.setGridOption("loading", isLoading);
-  }, [isLoading]);
-
+  // Ag Grid: GridOptions
   const gridOptions: GridOptions = {
     columnDefs: columnDefs,
     rowDragManaged: true,
-    loading: isLoading,
+    onRowDoubleClicked: onRowDoubleClick
   };
+
+  /**************************************************
+   * return JSX.Element
+   *
+   **************************************************/
 
   return (
     <>
-      <AgGridReact onGridReady={onGridReady} gridOptions={gridOptions} rowData={rowData} onRowDoubleClicked={onRowDoubleClick} />
+      {/* AgGridReactを利用、gridOptions と rowData を渡す */}
+      <AgGridReact gridOptions={gridOptions} rowData={rowData} />
     </>
   );
 };

@@ -8,14 +8,14 @@ export default function Page(): JSX.Element {
   console.log("レンダリング発生(2回実行)");
 
   // useState
-  const handleClick = () => {
+  const handleClick = (): void => {
     console.log("handleClick、useStateを更新 ----------");
     setCount(count + 1);
     console.log(count);
   };
 
   // useRef
-  const handleClick2 = () => {
+  const handleClick2 = (): void => {
     console.log("handleClick2、useRefを更新 ----------");
     count2.current = count2.current + 1;
     console.log(count2.current);

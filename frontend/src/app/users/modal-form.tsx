@@ -1,42 +1,31 @@
 "use client";
 
+// React、MUI
 import { JSX, useEffect } from "react";
-
-// React Hook Form
-import { Controller, useForm } from "react-hook-form";
-
-// MUI
 import { Modal, Box, Typography, FormControlLabel, TextField, FormControl, InputLabel, Autocomplete, Checkbox, Button } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 // 他に Select: Select, MenuItemを利用、FormHelperText: エラーメッセージの位置調整などがある
 
 // MUI for DatePicker
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
+
+// Luxon
+import { DateTime } from "luxon";
+
+// React Hook Form
+import { Controller, useForm } from "react-hook-form";
 
 // Data
 import { User, userSchema } from "@/types/User";
-import { ajvValidate } from "@/common/utilities/ajvValidate";
 
-// MUI modal style
-const style = {
-  position: "absolute", // 位置を自由に指定できるようにする
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)", // 中央に配置
-  width: 700,
-  maxHeight: "95vh",
-  overflowY: "scroll",
-  bgcolor: "background.paper", // 背景色（白やグレー）
-  borderRadius: 2,
-  boxShadow: 24, // 影をつけて浮かせる
-  p: 4, // padding
-  // scrollY: scroll,
-};
+// Common
+import { ModalContainer } from "@/common/organisms/ModalContainer";
+import { ajvValidate } from "@/common/utilities/ajvValidate";
 
 // Props (keyは受取不可、propsに含めないように注意)
 interface IProps {
-  open: boolean;
+  isOpen: boolean;
   data: User | null;
   onFormSubmit: (user: User) => Promise<void>;
   onDelete: (user: User) => Promise<void>;
@@ -45,9 +34,25 @@ interface IProps {
 
 // Organisms
 export const ModalForm = (props: IProps): JSX.Element => {
-  // Props
-  const { open, data, onFormSubmit, onDelete, onClose }: IProps = props;
-  // console.log("modalマウント");
+  /**************************************************
+   * Props
+   *
+   **************************************************/
+
+  const { isOpen, data, onFormSubmit, onDelete, onClose }: IProps = props;
+
+  // リストは実際はbackendや定数から取得
+  const hobbies: Record<string, string>[] = [
+    { code: "music", label: "音楽" },
+    { code: "sports", label: "スポーツ" },
+    { code: "reading", label: "読書" },
+    { code: "travel", label: "旅行" }
+  ];
+
+  /**************************************************
+   * 状態 (State)
+   *
+   **************************************************/
 
   // React Hook Form state
   const {
@@ -56,7 +61,7 @@ export const ModalForm = (props: IProps): JSX.Element => {
     handleSubmit,
     register,
     reset,
-    setError,
+    setError
   } = useForm<User>({
     defaultValues: {
       account: "",
@@ -70,9 +75,14 @@ export const ModalForm = (props: IProps): JSX.Element => {
       createdAt: "",
       updatedAt: "",
       createdBy: "",
-      updatedBy: "",
-    },
+      updatedBy: ""
+    }
   });
+
+  /**************************************************
+   * 副作用
+   *
+   **************************************************/
 
   // 新規登録 or 編集
   useEffect(() => {
@@ -87,7 +97,7 @@ export const ModalForm = (props: IProps): JSX.Element => {
       password: data.password !== undefined ? data.password : "",
       age: data.age !== undefined ? data.age : 0,
       hobby: data.hobby !== undefined ? data.hobby : "",
-      startDate: data.startDate !== undefined ? data.startDate : "",
+      applyDate: data.applyDate !== undefined ? data.applyDate : "",
       isEnabled: data.isEnabled !== undefined ? data.isEnabled : false,
       remarks: data.remarks !== undefined ? data.remarks : "",
       isDeleted: data.isDeleted !== undefined ? data.isDeleted : false,
@@ -95,59 +105,62 @@ export const ModalForm = (props: IProps): JSX.Element => {
       createdAt: data.createdAt !== undefined ? data.createdAt : "",
       updatedAt: data.updatedAt !== undefined ? data.updatedAt : "",
       createdBy: data.createdBy !== undefined ? data.createdBy : "",
-      updatedBy: data.updatedBy !== undefined ? data.updatedBy : "",
+      updatedBy: data.updatedBy !== undefined ? data.updatedBy : ""
     };
 
     reset(user);
-  }, [open, data, reset]);
+  }, [isOpen, data, reset]);
 
-  // const handleChange = () => {};
+  /**************************************************
+   * 関数・イベント ※Propsで渡す関数名はhandleから始める
+   *
+   **************************************************/
 
-  const onSubmit = async (formData: User) => {
+  // const onChange = (): void => {};
+
+  const onSubmit = async (formData: User): Promise<void> => {
     // dataとformDataをマージ
     // data: 編集時のデータ(キー、日時など)を保持
     // formData: 入力内容で上書き
-    const user: User = {
+    // ...スプレッドでマージする場合は型を指定する
+    const margeData: User = {
       ...data,
-      ...formData,
+      ...formData
     };
 
     // Validation (自作ユーティリティ)
-    const result = ajvValidate<User>(user, userSchema);
+    const validationErrors = ajvValidate<User>(margeData, userSchema);
 
     // エラーがあればReact Hook Formに表示
-    // ユーザー名が引っ掛からない
-    if (!result.valid && result.errors) {
-      for (const [field, message] of Object.entries(result.errors)) {
-        setError(field as keyof User, {
-          type: "manual",
-          message,
-        });
+    if (validationErrors.length) {
+      for (const { field, message } of validationErrors) {
+        // field as keyof User: User型のプロパティであること
+        setError(field as keyof User, { type: "manual", message: message });
       }
 
-      // キャンセル
+      // エラー時は中断
       return;
     }
+
+    const user = margeData;
 
     // Submit
     onFormSubmit(user);
   };
 
-  const hobbies: Record<string, string>[] = [
-    { code: "music", label: "音楽" },
-    { code: "sports", label: "スポーツ" },
-    { code: "reading", label: "読書" },
-    { code: "travel", label: "旅行" },
-  ];
+  /**************************************************
+   * return JSX.Element
+   *
+   **************************************************/
 
   return (
     <>
       {/* Modal */}
-      <Modal keepMounted={false} open={open} onClose={onClose}>
+      <Modal keepMounted={false} open={isOpen} onClose={onClose}>
         {/* MUI Datepickerの宣言 */}
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={AdapterLuxon}>
           {/* Form */}
-          <Box sx={style}>
+          <ModalContainer>
             {/* Modal header */}
             <Typography variant="h6" component="h2">
               ユーザーの{!data ? "新規登録" : "編集"}
@@ -164,7 +177,19 @@ export const ModalForm = (props: IProps): JSX.Element => {
                   name="account"
                   control={control}
                   render={({ field }) => (
-                    <TextField size="small" sx={{ flexGrow: 1 }} {...field} error={!!errors.account} helperText={errors.account?.message?.toString()} placeholder="例: test@gmail.com" />
+                    <TextField
+                      size="small"
+                      sx={{
+                        flexGrow: 1,
+                        "& .MuiFormHelperText-root": {
+                          whiteSpace: "pre-line"
+                        }
+                      }}
+                      {...field}
+                      error={!!errors.account}
+                      helperText={errors.account?.message}
+                      placeholder="例: test@gmail.com"
+                    />
                   )}
                 />
               </Box>
@@ -177,7 +202,21 @@ export const ModalForm = (props: IProps): JSX.Element => {
                 <Controller
                   name="username"
                   control={control}
-                  render={({ field }) => <TextField size="small" {...field} error={!!errors.username} helperText={errors.username?.message?.toString()} placeholder="例: test" />}
+                  render={({ field }) => (
+                    <TextField
+                      size="small"
+                      sx={{
+                        flexGrow: 1,
+                        "& .MuiFormHelperText-root": {
+                          whiteSpace: "pre-line"
+                        }
+                      }}
+                      {...field}
+                      error={!!errors.username}
+                      helperText={errors.username?.message}
+                      placeholder="例: test"
+                    />
+                  )}
                 />
               </Box>
 
@@ -190,7 +229,21 @@ export const ModalForm = (props: IProps): JSX.Element => {
                   <Controller
                     name="password"
                     control={control}
-                    render={({ field }) => <TextField size="small" {...field} error={!!errors.password} helperText={errors.password?.message?.toString()} placeholder="例: test" />}
+                    render={({ field }) => (
+                      <TextField
+                        size="small"
+                        sx={{
+                          flexGrow: 1,
+                          "& .MuiFormHelperText-root": {
+                            whiteSpace: "pre-line"
+                          }
+                        }}
+                        {...field}
+                        error={!!errors.password}
+                        helperText={errors.password?.message}
+                        placeholder="例: test"
+                      />
+                    )}
                   />
                 </Box>
               ) : (
@@ -205,7 +258,22 @@ export const ModalForm = (props: IProps): JSX.Element => {
                 <Controller
                   name="age"
                   control={control}
-                  render={({ field }) => <TextField type="number" size="small" {...field} error={!!errors.age} helperText={errors.age?.message?.toString()} placeholder="例: 20" />}
+                  render={({ field }) => (
+                    <TextField
+                      type="number"
+                      size="small"
+                      sx={{
+                        flexGrow: 1,
+                        "& .MuiFormHelperText-root": {
+                          whiteSpace: "pre-line"
+                        }
+                      }}
+                      {...field}
+                      error={!!errors.age}
+                      helperText={errors.age?.message}
+                      placeholder="例: 20"
+                    />
+                  )}
                 />
               </Box>
 
@@ -222,13 +290,19 @@ export const ModalForm = (props: IProps): JSX.Element => {
                       {/* renderInputはslotPropsに更新される可能性あり */}
                       <Autocomplete
                         {...field}
-                        sx={{ width: 200 }}
+                        sx={{
+                          width: 200,
+                          flexGrow: 1,
+                          "& .MuiFormHelperText-root": {
+                            whiteSpace: "pre-line"
+                          }
+                        }}
                         options={hobbies}
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.code === value.code}
                         value={hobbies.find((element) => element.code === field.value) || null}
                         onChange={(event, newValue) => field.onChange(newValue?.code || "")}
-                        renderInput={(params) => <TextField {...params} size="small" error={!!errors.hobby} helperText={errors.hobby?.message?.toString()} placeholder="選択してください" />}
+                        renderInput={(params) => <TextField {...params} size="small" error={!!errors.hobby} helperText={errors.hobby?.message} placeholder="選択してください" />}
                         clearOnEscape
                       />
                     </FormControl>
@@ -236,24 +310,30 @@ export const ModalForm = (props: IProps): JSX.Element => {
                 />
               </Box>
 
-              {/* startDate */}
+              {/* applyDate */}
               <Box sx={{ mt: 2, display: "flex", alignItems: "flex-start" }}>
                 <InputLabel size="small" sx={{ transform: "none", mt: 1, width: 200 }}>
-                  開始日
+                  適用日
                 </InputLabel>
                 <Controller
-                  name="startDate"
+                  name="applyDate"
                   control={control}
                   render={({ field }) => (
                     <DatePicker
-                      value={field.value ? new Date(field.value) : null}
-                      onChange={(newValue) => field.onChange(newValue)}
+                      value={field.value ? DateTime.fromISO(field.value) : null}
+                      onChange={(newValue) => field.onChange(newValue ? newValue.toISO() : "")}
                       format="yyyy/MM/dd"
                       slotProps={{
                         textField: {
                           size: "small",
-                          error: !!errors.startDate,
-                          helperText: errors.startDate?.message?.toString(),
+                          sx: {
+                            flexGrow: 1,
+                            "& .MuiFormHelperText-root": {
+                              whiteSpace: "pre-line"
+                            }
+                          },
+                          error: !!errors.applyDate,
+                          helperText: errors.applyDate?.message,
                           placeholder: "日付を選択してください",
                           InputProps: {
                             /* TextFieldの右にクリアボタン埋込 */
@@ -267,9 +347,9 @@ export const ModalForm = (props: IProps): JSX.Element => {
                                 fontSize="small"
                                 sx={{ cursor: "pointer", color: "#888", ml: 1 }}
                               />
-                            ) : null,
-                          },
-                        },
+                            ) : null
+                          }
+                        }
                       }}
                     />
                   )}
@@ -289,8 +369,12 @@ export const ModalForm = (props: IProps): JSX.Element => {
                       label="有効にする"
                       sx={{
                         "& .MuiFormControlLabel-label": {
-                          color: "rgba(0, 0, 0, 0.6)",
+                          color: "rgba(0, 0, 0, 0.6)"
                         },
+                        flexGrow: 1,
+                        "& .MuiFormHelperText-root": {
+                          whiteSpace: "pre-line"
+                        }
                       }}
                       control={<Checkbox {...field} checked={field.value ? field.value : false} onChange={(e) => field.onChange(e.target.checked)} />}
                     />
@@ -306,7 +390,22 @@ export const ModalForm = (props: IProps): JSX.Element => {
                 <Controller
                   name="remarks"
                   control={control}
-                  render={({ field }) => <TextField multiline rows={3} sx={{ flexGrow: 1 }} size="small" {...field} error={!!errors.remarks} helperText={errors.remarks?.message?.toString()} />}
+                  render={({ field }) => (
+                    <TextField
+                      multiline
+                      rows={3}
+                      sx={{
+                        flexGrow: 1,
+                        "& .MuiFormHelperText-root": {
+                          whiteSpace: "pre-line"
+                        }
+                      }}
+                      size="small"
+                      {...field}
+                      error={!!errors.remarks}
+                      helperText={errors.remarks?.message}
+                    />
+                  )}
                 />
               </Box>
 
@@ -333,7 +432,7 @@ export const ModalForm = (props: IProps): JSX.Element => {
                 </Button>
               </Box>
             </Box>
-          </Box>
+          </ModalContainer>
         </LocalizationProvider>
       </Modal>
     </>

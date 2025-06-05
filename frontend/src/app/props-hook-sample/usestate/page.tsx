@@ -9,7 +9,7 @@ export default function Page(): JSX.Element {
   const [count, setCount] = useState<number>(0);
   console.log("レンダリング発生(2回実行)");
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     console.log("handleClick ----------");
     setCount((count: number) => count + 1);
   };

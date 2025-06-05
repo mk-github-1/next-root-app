@@ -4,12 +4,12 @@ const nextConfig: NextConfig = {
   /* config options here */
   /* プレフィックス NEXT_PUBLIC_ or SECRET_ */
   env: {
-    // APU URL
-    NEXT_PUBLIC_API_URL: "http://localhost:5000/api",
+    // API URL
+    NEXT_PUBLIC_API_URL: "http://localhost:5000/api"
 
-    // SECRET API KEY
-    SECRET_API_KEY: "xxxx-xxxx",
-  },
+    // SECRET API KEY (backendのみ)
+    // SECRET_API_KEY: "xx",
+  }
 };
 
 export default nextConfig;

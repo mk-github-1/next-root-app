@@ -6,56 +6,48 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: __dirname
 });
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 
-  // 追加 型注釈必須ルール
+  // 追加ルール
   {
     files: ["**/*.{ts,tsx}"],
     rules: {
-      // 関数パラメータと変数宣言に型注釈を必須化
-      /*
-      "@typescript-eslint/typedef": [
-        "error",
-        {
-          parameter: true,
-          variableDeclaration: true,
-        },
-      ],
-      */
-
-      // 戻り値の型が明示されていない関数に警告を出す
-      "@typescript-eslint/explicit-function-return-type": "warn",
-
-      // importのtype分類
-      // "@typescript-eslint/consistent-type-imports": "warn",
+      // 戻り値の型が明示されていない関数に警告を出す (frontend、backend共用)
+      "@typescript-eslint/explicit-function-return-type": ["warn"],
 
       // console は 本番時は禁止、開発時のみ
       // "no-console": "error",
       "no-console": "off",
 
-      // 関数内の型宣言は不可？
+      // 型に関することは関数内に宣言禁止
       "no-restricted-syntax": [
-        "error", // interface
-        { selector: "FunctionDeclaration TSInterfaceDeclaration" },
-        { selector: "FunctionExpression TSInterfaceDeclaration" },
-        { selector: "ArrowFunctionExpression TSInterfaceDeclaration" },
-
-        // type alias
-        { selector: "FunctionDeclaration TSTypeAliasDeclaration" },
-        { selector: "FunctionExpression TSTypeAliasDeclaration" },
-        { selector: "ArrowFunctionExpression TSTypeAliasDeclaration" },
-
-        // class
-        { selector: "FunctionDeclaration ClassDeclaration" },
-        { selector: "FunctionExpression ClassDeclaration" },
-        { selector: "ArrowFunctionExpression ClassDeclaration" },
+        "error",
+        {
+          selector: "FunctionDeclaration TSInterfaceDeclaration",
+          message: "関数内でinterfaceを定義しないでください"
+        },
+        {
+          selector: "FunctionDeclaration TSTypeAliasDeclaration",
+          message: "関数内でtypeを定義しないでください"
+        },
+        {
+          selector: "FunctionDeclaration ClassDeclaration",
+          message: "関数内でclassを定義しないでください"
+        }
       ],
-    },
-  },
+
+      // 1ファイル、1関数あたりの行数制限（読みにくいので）
+      "max-lines": ["warn", 500],
+      "max-lines-per-function": ["warn", 500],
+
+      // ネスト制限 (読みにくいので）
+      "max-depth": ["warn", 3]
+    }
+  }
 ];
 
 export default eslintConfig;
