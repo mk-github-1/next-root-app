@@ -1,6 +1,8 @@
 # next-root-app
 
-Next.js を frontend + backend のサブプロジェクトに分けてまとめて実行するサンプル
+Next.js を frontend + backend のサブプロジェクトにまとめたサンプル
+
+## 利用方法
 
 1. Windows で NVM をインストール
    https://github.com/coreybutler/nvm-windows/releases
@@ -8,7 +10,7 @@ Next.js を frontend + backend のサブプロジェクトに分けてまとめ�
 
 2. PowerShell を実行し、NVM で Node.js 22 をインストール、選択
 
-**(frontend)**
+**(NVM コマンドで Node.js をインストール)**
 
 ```PowerShell
 nvm insall 22
@@ -17,14 +19,14 @@ nvm use
 
 3. Visual Studio Code を実行し、next-root-app フォルダを開いた後、ターミナルでフォルダ移動し、npm install をする
 
-**(frontend)**
+**(frontend に npm install)**
 
 ```PowerShell
 cd frontend
 npm install
 ```
 
-**(backend)**
+**(backend に npm install)**
 
 ```PowerShell
 cd ..
