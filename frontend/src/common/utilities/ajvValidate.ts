@@ -26,9 +26,7 @@ export const ajvValidate = <T>(data: T, schema: JSONSchemaType<T>): Record<strin
   const valid = validate(data);
 
   // valid: true trueは終了
-  if (valid) {
-    return [];
-  }
+  if (valid) return [];
 
   // valid: false
   const errors: Record<string, string>[] = [];

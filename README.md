@@ -1,2 +1,35 @@
 # next-root-app
- Next.jsをfrontend + backendのサブプロジェクトに分けてまとめて実行するサンプル
+
+Next.js を frontend + backend のサブプロジェクトに分けてまとめて実行するサンプル
+
+1. Windows で NVM をインストール
+   https://github.com/coreybutler/nvm-windows/releases
+   nvm-setup.zip
+
+2. PowerShell を実行し、NVM で Node.js 22 をインストール、選択
+
+**(frontend)**
+
+```PowerShell
+nvm insall 22
+nvm use
+```
+
+3. Visual Studio Code を実行し、next-root-app フォルダを開いた後、ターミナルでフォルダ移動し、npm install をする
+
+**(frontend)**
+
+```PowerShell
+cd frontend
+npm install
+```
+
+**(backend)**
+
+```PowerShell
+cd ..
+cd backendend
+npm install
+```
+
+4. その後、Visual Studio Code のデバッグボタンで、Next.js: debug compounds を選択して実行すると、デバッグ実行することができます。
