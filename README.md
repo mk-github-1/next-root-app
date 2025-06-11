@@ -36,7 +36,7 @@ npm install
 
 ```PowerShell
 cd ..
-cd backendend
+cd backend
 npm install
 ```
 
