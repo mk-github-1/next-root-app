@@ -4,15 +4,15 @@ Next.js を frontend + backend のサブプロジェクトにまとめたサン�
 
 ## 利用方法
 
-1. Windows で NVM をインストール
+・Windows で NVM をインストール
 
-   https://github.com/coreybutler/nvm-windows/releases
+https://github.com/coreybutler/nvm-windows/releases
 
-   nvm-setup.zip
+nvm-setup.zip
 
 ---
 
-2. PowerShell を実行し、NVM で Node.js 22 をインストール、選択
+・PowerShell を実行し、NVM で Node.js 22 をインストール、選択
 
 **(NVM コマンドで Node.js をインストール)**
 
@@ -23,7 +23,7 @@ nvm use
 
 ---
 
-3. Visual Studio Code を実行し、next-root-app フォルダを開いた後、ターミナルでフォルダ移動し、npm install をする
+・Visual Studio Code を実行し、next-root-app フォルダを開いた後、ターミナルでフォルダ移動し、npm install をする
 
 **(frontend に npm install)**
 
@@ -42,4 +42,4 @@ npm install
 
 ---
 
-4. その後、Visual Studio Code のデバッグボタンで、Next.js: debug compounds を選択して実行すると、デバッグ実行することができます。
+・その後、Visual Studio Code のデバッグボタンで、Next.js: debug compounds を選択して実行すると、デバッグ実行することができます。
