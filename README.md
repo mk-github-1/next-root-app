@@ -17,7 +17,7 @@ nvm-setup.zip
 **(NVM コマンドで Node.js をインストール)**
 
 ```PowerShell
-nvm insall 22
+nvm install 22
 nvm use
 ```
 

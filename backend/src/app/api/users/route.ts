@@ -1,25 +1,29 @@
-/*
- * /api/User
- *
- */
 import { NextRequest, NextResponse } from "next/server";
 // import { headers, cookies } from "next/headers";
 
-// next-auth
-// import { getServerSession } from "next-auth/next";
-import Ajv, { ValidateFunction } from "ajv";
-// ★ import {} from "next-auth";
-// import { plainToClass, plainToInstance } from "class-transformer";
-import { ResponseMessages } from "@/domain/utils/constants/ResponseMessages";
-import { CustomException } from "@/domain/utils/types/CustomException";
+// Auth.js
+// import { Auth, type AuthConfig } from "@auth/core"
+// import Google from "@auth/core/providers/google"
 
+// Inversify
 import { container } from "@/settings/inversify/inversify.config";
 import { Types } from "@/settings/inversify/Types";
 
+// Luxon
+// import { DateTime } from "luxon";
+
+// class-transformer
+// import { plainToClass, plainToInstance } from "class-transformer";
+
+// Data、Service
 import { UserDto, userSchema } from "@/application/dtos/User/UserDto";
 import { IUserService } from "@/application/services/User/IUserService";
-// import { now } from "next-auth/client/_utils";
-// import { DateTime } from "luxon";
+
+// Common
+import { sanitize } from "@/application/utilities/sanitize";
+import { ajvValidate } from "@/application/utilities/ajvValidate";
+import { ResponseMessages } from "@/domain/utils/constants/ResponseMessages";
+import { CustomException } from "@/domain/utils/types/CustomException";
 
 // ★Next authの認証を追加する
 export async function GET(request: NextRequest): Promise<NextResponse<UserDto[]> | NextResponse<{ message: string }>> {
@@ -27,16 +31,17 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserDto[]>
   // const userService: IUserService = container.get<IUserService>(Types.UserService);
 
   try {
-    // Request -> keys mapping
-    const { searchParams } = new URL(request.url);
+    // Request -> Sanitize & keys mapping
+    const { searchParams } = new URL(request.url); // sanitize()
 
     const keys: Record<string, string> = searchParams.has("account")
       ? {
-          account: searchParams.get("account") ?? "",
+          account: searchParams.get("account") ?? ""
         }
       : {};
 
     // Validation
+    /*
     if (Object.keys(keys).length > 0) {
       const ajv: Ajv = new Ajv();
       const validate: ValidateFunction<UserDto> = ajv.compile(userSchema);
@@ -47,6 +52,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserDto[]>
         throw new CustomException(ResponseMessages[status], status);
       }
     }
+     */
 
     // Service operation
     // const userDtos: UserDto[] | null = await userService.find(keys);
@@ -67,7 +73,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserDto[]>
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         createdBy: "createdBy1",
-        updatedBy: "updatedBy1",
+        updatedBy: "updatedBy1"
       },
       {
         account: "test2@gmail.com",
@@ -82,8 +88,8 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserDto[]>
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         createdBy: "createdBy2",
-        updatedBy: "updatedBy2",
-      },
+        updatedBy: "updatedBy2"
+      }
     ];
 
     return await NextResponse.json(userDtos, { status: 200 });
@@ -102,17 +108,15 @@ export async function POST(request: NextRequest): Promise<NextResponse<UserDto> 
   const userService: IUserService = container.get<IUserService>(Types.UserService);
 
   try {
-    // Request -> dto mapping
-    const userDto: UserDto = await request.json();
+    // Request -> Sanitize & dto mapping
+    const temp: UserDto = await request.json(); // sanitize()
 
     // Validation
-    const ajv: Ajv = new Ajv();
-    const validate: ValidateFunction<UserDto> = ajv.compile(userSchema);
-    const isValidate: boolean = validate(userDto);
-    if (!isValidate) {
-      const status: number = 400;
-      throw new CustomException(ResponseMessages[status], status);
-    }
+    const validationErrors = ajvValidate<UserDto>(temp, userSchema);
+    if (validationErrors.length) throw new CustomException(ResponseMessages[400], 400);
+
+    // Validation後に型にセット
+    const userDto: UserDto = temp;
 
     // Service operation
     // const user: UserDto = await userService.create(userDto);
@@ -133,17 +137,15 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<UserDto>
   const userService: IUserService = container.get<IUserService>(Types.UserService);
 
   try {
-    // Request -> dto mapping
-    const userDto: UserDto = await request.json();
+    // Request -> Sanitize & dto mapping
+    const temp: UserDto = await request.json(); // sanitize()
 
     // Validation
-    const ajv: Ajv = new Ajv();
-    const validate: ValidateFunction<UserDto> = ajv.compile(userSchema);
-    const isValidate: boolean = validate(userDto);
-    if (!isValidate) {
-      const status: number = 400;
-      throw new CustomException(ResponseMessages[status], status);
-    }
+    const validationErrors = ajvValidate<UserDto>(temp, userSchema);
+    if (validationErrors.length) throw new CustomException(ResponseMessages[400], 400);
+
+    // Validation後に型にセット
+    const userDto: UserDto = temp;
 
     // Service operation
     // const user: UserDto = await userService.update(userDto);
@@ -164,17 +166,15 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<UserDto
   const userService: IUserService = container.get<IUserService>(Types.UserService);
 
   try {
-    // Request -> dto mapping
-    const userDto: UserDto = await request.json();
+    // Request -> Sanitize & dto mapping
+    const temp: UserDto = await request.json(); // sanitize()
 
     // Validation
-    const ajv: Ajv = new Ajv();
-    const validate: ValidateFunction<UserDto> = ajv.compile(userSchema);
-    const isValidate: boolean = validate(userDto);
-    if (!isValidate) {
-      const status: number = 400;
-      throw new CustomException(ResponseMessages[status], status);
-    }
+    const validationErrors = ajvValidate<UserDto>(temp, userSchema);
+    if (validationErrors.length) throw new CustomException(ResponseMessages[400], 400);
+
+    // Validation後に型にセット
+    const userDto: UserDto = temp;
 
     // Service operation
     // const user: UserDto = await userService.delete({ key: userDto.account });
