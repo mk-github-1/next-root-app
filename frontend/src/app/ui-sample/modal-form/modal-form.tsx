@@ -93,20 +93,20 @@ export const ModalForm = (props: IProps): JSX.Element => {
     }
 
     const user: User = {
-      account: data.account !== undefined ? data.account : "",
-      username: data.username !== undefined ? data.username : "",
-      password: data.password !== undefined ? data.password : "",
-      age: data.age !== undefined ? data.age : 0,
-      hobby: data.hobby !== undefined ? data.hobby : "",
-      applyDate: data.applyDate !== undefined ? data.applyDate : "",
-      isEnabled: data.isEnabled !== undefined ? data.isEnabled : false,
-      remarks: data.remarks !== undefined ? data.remarks : "",
-      isDeleted: data.isDeleted !== undefined ? data.isDeleted : false,
-      sortOrder: data.sortOrder !== undefined ? data.sortOrder : 0,
-      createdAt: data.createdAt !== undefined ? data.createdAt : "",
-      updatedAt: data.updatedAt !== undefined ? data.updatedAt : "",
-      createdBy: data.createdBy !== undefined ? data.createdBy : "",
-      updatedBy: data.updatedBy !== undefined ? data.updatedBy : ""
+      account: data.account ?? "",
+      username: data.username ?? "",
+      password: data.password ?? "",
+      age: data.age ?? 0,
+      hobby: data.hobby ?? "",
+      applyDate: data.applyDate ?? "",
+      isEnabled: data.isEnabled ?? false,
+      remarks: data.remarks ?? "",
+      isDeleted: data.isDeleted ?? false,
+      sortOrder: data.sortOrder ?? 0,
+      createdAt: data.createdAt ?? "",
+      updatedAt: data.updatedAt ?? "",
+      createdBy: data.createdBy ?? "",
+      updatedBy: data.updatedBy ?? ""
     };
 
     reset(user);
