@@ -1,6 +1,6 @@
 # next-root-app
 
-Next.js を frontend + backend のサブプロジェクトにまとめたサンプル
+Next.js を next-root-app フォルダ内に frontend、backend ごとに作成したサンプル
 
 ## 利用方法
 
