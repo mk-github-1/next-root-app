@@ -1,6 +1,6 @@
 # next-root-app
 
-6/12 22:20 next.config.ts の設定不具合の修正中
+6/12 22:30 next.config.ts の設定修正中済み、どの環境でも動作できることを確認
 
 Next.js を next-root-app フォルダ内に frontend、backend ごとに作成したサンプル
 
