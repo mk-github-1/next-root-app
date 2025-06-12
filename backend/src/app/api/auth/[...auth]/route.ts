@@ -1,3 +1,4 @@
+/* Auth.js 用の下書き
 // セッション管理だけどセキュアクッキーを使う
 
 import { Auth } from "@auth/core";
@@ -7,14 +8,13 @@ import Google from "@auth/core/providers/google";
 import { authConfig } from "@/settings/authjs/authConfig";
 import { NextRequest } from "next/server";
 
-/* 認証順序案
-・ログインボタンを押す	 フロントエンド	ユーザーがGoogleログインを開始する
-・/api/auth/signin/google にアクセス	 フロント → バックエンド	backendがGoogle認証にリダイレクト
-・Googleアカウントで認証	 ブラウザ上のGoogle	認証処理自体はユーザーとGoogleが直接やりとり
-・/api/auth/callback/google に戻る	 Google → バックエンド	backendが認証トークンを受け取りセッションを生成
-・frontendにリダイレクト + Cookie発行	 バックエンド	セキュアCookieでセッションを保持
-・frontendが /api/session を叩く	 フロント → バックエンド	Cookieをもとにログイン状態を確認・表示
-*/
+// 認証順序案
+// ・ログインボタンを押す	 フロントエンド	ユーザーがGoogleログインを開始する
+// ・/api/auth/signin/google にアクセス	 フロント → バックエンド	backendがGoogle認証にリダイレクト
+// ・Googleアカウントで認証	 ブラウザ上のGoogle	認証処理自体はユーザーとGoogleが直接やりとり
+// ・/api/auth/callback/google に戻る	 Google → バックエンド	backendが認証トークンを受け取りセッションを生成
+// ・frontendにリダイレクト + Cookie発行	 バックエンド	セキュアCookieでセッションを保持
+// ・frontendが /api/session を叩く	 フロント → バックエンド	Cookieをもとにログイン状態を確認・表示
 
 export async function GET(request: NextRequest): Promise<Response> {
   return await Auth(request, authConfig);

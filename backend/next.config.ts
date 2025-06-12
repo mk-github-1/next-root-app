@@ -2,9 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  /* プレフィックス NEXT_PUBLIC_ or SECRET_ */
   env: {
-    // SECRET API KEY (backendのみ)
+    // GitHub公開用に記載、通常はここのenv設定を削除して.envファイルに書きます。
     SECRET_KEY_GOOGLE: "xx",
     SECRET_GOOGLE_CLIENT_ID: "xx",
     SECRET_GOOGLE_CLIENT_SECRET: "xx"
