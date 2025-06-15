@@ -45,3 +45,6 @@ npm install
 ---
 
 ・その後、Visual Studio Code のデバッグボタンで、Next.js: debug compounds を選択して実行すると、デバッグ実行することができます。
+
+・dev実行時、画面遷移の際に初回画面ロード時に若干時間がかかります。(約9秒以内ぐらい)
+
