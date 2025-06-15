@@ -5,30 +5,45 @@
  * ※Sidebar の状態管理付き
  *
  **************************************************/
-import Link from "next/link";
 import { JSX } from "react";
+import Link from "next/link";
+// import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 import { useSettingSidebar } from "@/hooks/common/useSettingSidebar";
+// import { setRenderTimerStart } from "@/hooks/common/useRenderTimer";
 
 export default function Sidebar(): JSX.Element {
+  console.log("Sidebarのレンダリングが発生");
+
   /**************************************************
-   * Props
+   * 状態 (State)、カスタムフック、共通関数
    *
    **************************************************/
 
+  // const router = useRouter();
   const { isOpen, handleToggleOpen } = useSettingSidebar();
 
-  console.log("Sidebarのレンダリングが発生");
+  /**************************************************
+   * 関数・イベント ※Propsで渡す関数名はhandleから始める
+   *
+   **************************************************/
+
+  // 描画時間 計測用
+  /*
+  const handleClick = (): void => {
+    setRenderTimerStart();
+    router.push("/users");
+  };
+   */
 
   /**************************************************
    * return JSX.Element
    *
    **************************************************/
-
   return (
     <Box
       sx={{
@@ -142,6 +157,9 @@ export default function Sidebar(): JSX.Element {
               <Link href="/users">User page</Link>
             </li>
           </ul>
+          {/*
+          <button onClick={handleClick}>User page(描画時間 確認用)</button>
+          */}
         </>
       )}
     </Box>

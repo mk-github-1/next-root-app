@@ -37,16 +37,16 @@ export default function RootLayout({
           <Header />
         </header>
 
-        {/* Content */}
+        {/* Main */}
         <main>
           {/* 削除 className={styles.main} */}
-          {/* サイドバー */}
+          {/* Sidebar */}
           <Sidebar />
 
-          {/* メインコンテンツ、content内はSSGのためコンポーネント化しない */}
+          {/* Content */}
           <div className="content">
             {children}
-            {/* importが重いもののプリロード */}
+            {/* 一部コンポーネントをプリロード + AG Grid Module登録 */}
             <AppInitializer />
           </div>
         </main>

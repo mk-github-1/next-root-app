@@ -10,6 +10,7 @@ import { AgGridReact } from "ag-grid-react";
 import type { ColDef, GridOptions, RowDoubleClickedEvent } from "ag-grid-community";
 
 // AG Grid の ModuleRegistry.registerModules は AppInitializerに移動
+// import { ModuleRegistry, ClientSideRowModelModule, RowDragModule } from "ag-grid-community";
 // ModuleRegistry.registerModules([ClientSideRowModelModule, RowDragModule]);
 
 // Luxon

@@ -19,6 +19,7 @@ import { createUserService } from "@/services/createUserService";
 // Common
 import { SnackbarContentContainer } from "@/common/organisms/SnackbarContentContainer";
 import { sanitize } from "@/common/utilities/sanitize";
+import { useRenderTimer } from "@/hooks/common/useRenderTimer";
 
 // Template (Layout & stateを持つ場所)
 export default function Template(): JSX.Element {
@@ -44,6 +45,9 @@ export default function Template(): JSX.Element {
 
   // Service (状態を持たない関数)
   const userService = createUserService(API_URL);
+
+  // 描画時間計測用
+  useRenderTimer("users");
 
   /**************************************************
    * 副作用
