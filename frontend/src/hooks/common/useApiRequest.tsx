@@ -1,5 +1,10 @@
 "use client";
 
+/**************************************************
+ * useApiRequest: HTTPリクエストの状態管理
+ *
+ *
+ **************************************************/
 import axios from "axios";
 import { ResponseMessages } from "@/constants/ResponseMessages";
 

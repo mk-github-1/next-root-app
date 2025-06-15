@@ -5,7 +5,7 @@ import { JSX, useState, useEffect, useCallback } from "react";
 import { Box, Backdrop, CircularProgress, Snackbar, Button } from "@mui/material";
 
 // AG Grid
-import { RowDoubleClickedEvent } from "ag-grid-community";
+import type { RowDoubleClickedEvent } from "ag-grid-community";
 
 // App
 import { Table } from "./table";
@@ -169,7 +169,6 @@ export default function Template(): JSX.Element {
    * return JSX.Element
    *
    **************************************************/
-
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%", gap: "5px" }}>
       <Box sx={{ flex: "0 0 auto" }}>

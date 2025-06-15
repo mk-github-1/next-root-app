@@ -6,20 +6,11 @@ import { JSX } from "react";
 
 // AG Grid
 import { AgGridReact } from "ag-grid-react";
-// import type { GridApi } from "ag-grid-community";
-import { ColDef, GridOptions, ModuleRegistry, ClientSideRowModelModule, RowDragModule, ValidationModule, RowDoubleClickedEvent } from "ag-grid-community";
-/* , MenuModule, ColumnsToolPanelModule, FiltersToolPanelModule, SetFilterModule, NumberFilterModule, TextFilterModule, StatusBarModule, SideBarModule, ClipboardModule, CsvExportModule */
-// import { ExcelExportModule, MasterDetailModule, ServerSideRowModelModule, InfiniteRowModelModule, ViewportRowModelModule, RowGroupingModule, PivotModule, ChartsModule, SparklinesModule } from 'ag-grid-enterprise';
+// import { GridApi } from "ag-grid-community";
+import type { ColDef, GridOptions, RowDoubleClickedEvent } from "ag-grid-community";
 
-ModuleRegistry.registerModules([
-  // Community版
-  ClientSideRowModelModule,
-  RowDragModule,
-  // MenuModule, ColumnsToolPanelModule, FiltersToolPanelModule, SetFilterModule, NumberFilterModule, TextFilterModule, StatusBarModule, SideBarModule, ClipboardModule, CsvExportModule,
-  ValidationModule
-  // Enterprise版
-  // ExcelExportModule, MasterDetailModule, ServerSideRowModelModule, InfiniteRowModelModule, ViewportRowModelModule, RowGroupingModule, PivotModule, ChartsModule, SparklinesModule
-]);
+// AG Grid の ModuleRegistry.registerModules は AppInitializerに移動
+// ModuleRegistry.registerModules([ClientSideRowModelModule, RowDragModule]);
 
 // Luxon
 import { DateTime } from "luxon";
@@ -40,7 +31,7 @@ export const Table = (props: IProps): JSX.Element => {
    *
    **************************************************/
 
-  const { rowData, onRowDoubleClick }: IProps = props;
+  const { rowData, onRowDoubleClick } = props;
 
   // Ag Grid: gridApi参照 (必要時)
   // const gridApi = useRef<GridApi | null>(null);
@@ -119,7 +110,6 @@ export const Table = (props: IProps): JSX.Element => {
    * return JSX.Element
    *
    **************************************************/
-
   return (
     <>
       {/* AgGridReactを利用、gridOptions と rowData を渡す */}

@@ -5,7 +5,7 @@
  * ※Styleのみ適用
  *
  **************************************************/
-import { SnackbarContent } from "@mui/material";
+import SnackbarContent from "@mui/material/SnackbarContent";
 import { styled } from "@mui/material/styles";
 
 export const SnackbarContentContainer = styled(SnackbarContent)(({ theme }) => ({

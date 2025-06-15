@@ -38,7 +38,6 @@ export default function Template(): JSX.Element {
    * return JSX.Element
    *
    **************************************************/
-
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%", gap: "5px" }}>
       <Box sx={{ flex: "0 0 auto" }}>

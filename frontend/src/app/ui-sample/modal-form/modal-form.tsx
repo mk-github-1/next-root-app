@@ -2,7 +2,7 @@
 
 // React、MUI
 import { JSX, useEffect } from "react";
-import { Modal, Box, Typography, FormControlLabel, TextField, FormControl, InputLabel, Autocomplete, Checkbox, Button } from "@mui/material";
+import { Autocomplete, Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, Modal, TextField, Typography } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 // 他に Select: Select, MenuItemを利用、FormHelperText: エラーメッセージの位置調整などがある
 
@@ -39,7 +39,7 @@ export const ModalForm = (props: IProps): JSX.Element => {
    *
    **************************************************/
 
-  const { isOpen, data, onFormSubmit, onClose }: IProps = props;
+  const { isOpen, data, onFormSubmit, onClose } = props;
   // console.log("modalマウント");
 
   // リストは実際はbackendや定数から取得
@@ -153,7 +153,6 @@ export const ModalForm = (props: IProps): JSX.Element => {
    * return JSX.Element
    *
    **************************************************/
-
   return (
     <>
       {/* Modal */}

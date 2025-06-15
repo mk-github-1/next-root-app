@@ -2,7 +2,7 @@
 
 // React、MUI
 import { JSX } from "react";
-import { Modal, Box, Typography, Button } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 
 // Common
 import { ModalContainer } from "@/common/organisms/ModalContainer";
@@ -35,13 +35,12 @@ export const ModalForm = (props: IProps): JSX.Element => {
    *
    **************************************************/
 
-  const { isOpen, onClose }: IProps = props;
+  const { isOpen, onClose } = props;
 
   /**************************************************
    * return JSX.Element
    *
    **************************************************/
-
   return (
     <>
       {/* Modal */}

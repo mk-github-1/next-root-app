@@ -7,9 +7,11 @@
  **************************************************/
 import Link from "next/link";
 import { JSX } from "react";
-import { Box, IconButton } from "@mui/material";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+
 import { useSettingSidebar } from "@/hooks/common/useSettingSidebar";
 
 export default function Sidebar(): JSX.Element {
@@ -19,6 +21,8 @@ export default function Sidebar(): JSX.Element {
    **************************************************/
 
   const { isOpen, handleToggleOpen } = useSettingSidebar();
+
+  console.log("Sidebarのレンダリングが発生");
 
   /**************************************************
    * return JSX.Element
@@ -114,7 +118,7 @@ export default function Sidebar(): JSX.Element {
           <h3>6. 共通ユーティリティ関数、共通コンポーネント</h3>
           <ul>
             <li>
-              <Link href="/common/sanitize">文字列の無害化 (sanitize)</Link>
+              <Link href="/sanitize-sample/sanitize">文字列の無害化 (sanitize)</Link>
             </li>
             <li>
               <span style={{ fontSize: "10px" }}>※共通ユーティリティ関数 ajvValidate、共通コンポーネント ModalContainer、SnackbarContentContainter は8項で確認のため省略</span>

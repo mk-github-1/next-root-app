@@ -1,5 +1,10 @@
 "use client";
 
+/**************************************************
+ * useSettingSidebar: Sidebarの状態管理
+ *
+ *
+ **************************************************/
 import { useState, useEffect, useRef } from "react";
 import localforage from "localforage";
 
