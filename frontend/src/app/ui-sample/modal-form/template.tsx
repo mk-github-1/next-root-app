@@ -2,7 +2,7 @@
 
 // React、MUI
 import { JSX, useState, useEffect, useCallback } from "react";
-import { Box, Backdrop, CircularProgress, Snackbar, Button } from "@mui/material";
+import { Box, Backdrop, CircularProgress, Button } from "@mui/material";
 
 // App
 import { ModalForm } from "./modal-form";
@@ -13,7 +13,7 @@ import { User } from "@/types/User";
 import { createUserService } from "@/services/createUserService";
 
 // Common
-import { SnackbarContentContainer } from "@/common/organisms/SnackbarContentContainer";
+import { SnackbarContainer } from "@/common/organisms/SnackbarContainer";
 import { sanitize } from "@/common/utilities/sanitize";
 
 // Template (Layout & stateを持つ場所)
@@ -124,9 +124,7 @@ export default function Template(): JSX.Element {
       </Backdrop>
 
       {/* Message */}
-      <Snackbar open={snackbar.open} onClose={() => setSnackbar({ ...snackbar, open: false })} autoHideDuration={3000} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-        <SnackbarContentContainer message={snackbar.message} />
-      </Snackbar>
+      <SnackbarContainer open={snackbar.open} message={snackbar.message} onClose={() => setSnackbar({ ...snackbar, open: false })} />
     </Box>
   );
 }

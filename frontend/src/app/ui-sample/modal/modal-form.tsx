@@ -2,7 +2,7 @@
 
 // React、MUI
 import { JSX } from "react";
-import { Box, Button, Modal, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 // Common
 import { ModalContainer } from "@/common/organisms/ModalContainer";
@@ -44,26 +44,22 @@ export const ModalForm = (props: IProps): JSX.Element => {
   return (
     <>
       {/* Modal */}
-      <Modal keepMounted={false} open={isOpen} onClose={onClose}>
-        {/* Form */}
-        {/* <Box sx={modalBoxStyle}> は ModalContainer でスタイルのみ作成 */}
-        <ModalContainer>
-          {/* Modal header */}
-          <Typography variant="h6" component="h2">
-            これはモーダル画面です
-          </Typography>
-          {/* Modal content */}
+      <ModalContainer open={isOpen} onClose={onClose}>
+        {/* Modal header */}
+        <Typography variant="h6" component="h2">
+          これはモーダル画面です
+        </Typography>
+        {/* Modal content */}
 
-          {/* Modal footer */}
-          <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
-            <div style={{ display: "inline-block", marginLeft: "5px" }}>
-              <Button size="small" sx={{ ml: 1 }} variant="contained" color="inherit" onClick={onClose}>
-                閉じる
-              </Button>
-            </div>
-          </Box>
-        </ModalContainer>
-      </Modal>
+        {/* Modal footer */}
+        <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
+          <div style={{ display: "inline-block", marginLeft: "5px" }}>
+            <Button size="small" sx={{ ml: 1 }} variant="contained" color="inherit" onClick={onClose}>
+              閉じる
+            </Button>
+          </div>
+        </Box>
+      </ModalContainer>
     </>
   );
 };

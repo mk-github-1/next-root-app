@@ -5,19 +5,35 @@
  * ※Styleのみ適用
  *
  **************************************************/
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+import React, { JSX } from "react";
+import { Modal, Box } from "@mui/material";
 
-export const ModalContainer = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 700,
-  maxHeight: "95vh",
-  overflowY: "auto",
-  backgroundColor: theme.palette.background.paper,
-  borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[24],
-  padding: theme.spacing(4)
-}));
+interface IProps {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  width?: number;
+}
+
+export const ModalContainer = ({ open, onClose, children, width = 700 }: IProps): JSX.Element => {
+  return (
+    <Modal open={open} onClose={onClose} keepMounted={false}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width,
+          maxHeight: "95vh",
+          overflowY: "auto",
+          bgcolor: "background.paper",
+          borderRadius: 2,
+          boxShadow: 24,
+          p: 4
+        }}>
+        {children}
+      </Box>
+    </Modal>
+  );
+};

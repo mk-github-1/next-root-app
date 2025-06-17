@@ -17,8 +17,6 @@ import { useSettingSidebar } from "@/hooks/common/useSettingSidebar";
 // import { setRenderTimerStart } from "@/hooks/common/useRenderTimer";
 
 export default function Sidebar(): JSX.Element {
-  console.log("Sidebarのレンダリングが発生");
-
   /**************************************************
    * 状態 (State)、カスタムフック、共通関数
    *
@@ -33,12 +31,14 @@ export default function Sidebar(): JSX.Element {
    **************************************************/
 
   // 描画時間 計測用
+  // router.push("/users");
+  // router.push("/ui-sample/modal-form");
   /*
   const handleClick = (): void => {
     setRenderTimerStart();
     router.push("/users");
   };
-   */
+  */
 
   /**************************************************
    * return JSX.Element
@@ -159,6 +159,7 @@ export default function Sidebar(): JSX.Element {
           </ul>
           {/*
           <button onClick={handleClick}>User page(描画時間 確認用)</button>
+          <button onClick={handleClick}>Modal form(描画時間 確認用)</button>
           */}
         </>
       )}
