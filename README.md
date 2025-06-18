@@ -60,8 +60,8 @@ Next.js: debug compounds
 ・Web 記事
 https://zenn.dev/mofuweb/articles/nextjs-typescript-guide-1-1
 
-・GitHub
+・GitHub (ソースコード)
 https://github.com/mofuweb1/next-root-app
 
-・StackBlitz
+・StackBlitz (簡易デモ)
 https://stackblitz.com/edit/stackblitz-starters-joyxqrm2
