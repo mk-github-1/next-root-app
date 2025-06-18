@@ -44,7 +44,17 @@ npm install
 
 ---
 
-・その後、Visual Studio Code のデバッグボタンで、Next.js: debug compounds を選択して実行すると、デバッグ実行することができます。
+・その後、Visual Studio Code のデバッグボタンで、
 
-・dev実行時、画面遷移の際に初回画面ロード時に若干時間がかかります。(約9秒以内ぐらい)
+```
+Next.js: debug compounds
+```
 
+を選択して実行すると、デバッグ実行をすることができます。
+※その他では frontend、backend が同時起動できなく、ブラウザも自動で開かないので注意
+
+・dev 実行時、画面遷移の際に初回画面ロード時に若干時間がかかります。(約 5 秒以内ぐらい)
+
+## Web 公開しているほうはこちらにあります
+
+https://zenn.dev/mofuweb/articles/nextjs-typescript-guide-1-1

@@ -125,7 +125,7 @@ export default function Template(): JSX.Element {
     const user = sanitize(formData);
 
     // useApiRequestのrequestにserviceの関数を渡して実行
-    if (!user?.createdAt) {
+    if (!user.createdAt) {
       const response = await request(() => userService.post(user));
 
       if (response) {
@@ -150,7 +150,7 @@ export default function Template(): JSX.Element {
     const user = sanitize(formData);
 
     // useApiRequestのrequestにserviceの関数を渡して実行
-    if (!user?.createdAt) {
+    if (user.createdAt) {
       const response = await request(() => userService.del(user));
 
       if (response) {
